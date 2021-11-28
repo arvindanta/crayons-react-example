@@ -17,8 +17,8 @@ function App() {
   const el = useRef<any>(null);
   const el1 = useRef<any>(null);
   const [val,setVal] = useState(1)
-  const toast = ToastController();
-
+  const toast = ToastController({ position:'top-right'});
+  
   useEffect(() => {
    el1.current.onclick = function() {
      console.log("custom action handled here");
@@ -125,7 +125,7 @@ function App() {
             </div>
           </FwToastMessage>
 
-      <FwToast id="type_toast" 
+      <FwToast id="type_toast" ref={el}
       timeout={5000}></FwToast>
       <FwButton
         onClick={() =>
