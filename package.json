@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@freshworks/crayons": "^3.0.0-beta.6",
-    "@freshworks/crayons-1": "file:../../crayons/packages/crayons-core",
+    "@freshworks/crayons-1": "file:../crayons/packages/crayons-core",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
