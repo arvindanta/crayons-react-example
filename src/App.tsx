@@ -12,7 +12,7 @@ import {
   ToastController,
   FwToast,
   FwToastMessage,
-} from "@freshworks/crayons-1/react";
+} from "@freshworks/crayons/react";
 function App() {
   const el = useRef<any>(null);
   const el1 = useRef<any>(null);
