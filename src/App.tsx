@@ -12,11 +12,15 @@ import {
   ToastController,
   FwToast,
   FwToastMessage,
+  FwRelativeTime
 } from "@freshworks/crayons/react";
+import de from "date-fns/locale/de"
+
 function App() {
   const el = useRef<any>(null);
   const el1 = useRef<any>(null);
   const [val,setVal] = useState(1)
+  const [locale,setLocale] = useState(de);
   const toast = ToastController({ position:'top-right'});
   
   useEffect(() => {
@@ -27,9 +31,18 @@ function App() {
     
   },[])
 
+  const loadNewLocale = async (locale: string) => {
+    setLocale(await (await import(`date-fns/locale/${locale}/index.js`)).default)
+  }
+
   return (
     <div className="App">
       val - {val}
+
+      <FwRelativeTime sync localeModule={locale}></FwRelativeTime>
+
+      <button onClick={() => loadNewLocale('en-US')}>load new locale</button>
+
       <FwButton onFwClick={() => console.log("fwclicked")}>
         Default button with custom event handling
       </FwButton>
