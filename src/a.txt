@@ -1,0 +1,313 @@
+
+import React, { useState, useEffect, useRef} from "react";
+import {
+  FwButton,
+  FwModal,
+  FwInput,
+  FwModalContent,
+  FwModalFooter,
+  FwModalTitle,
+  FwSelect,
+  FwSelectOption,
+  ToastController,
+  FwToast,
+  FwToastMessage,
+  FwDatepicker,
+  FwIcon, registerIconLibrary, unregisterIconLibrary,
+  FwFormWrapper
+
+  //FwFormatDate
+ // TranslationController,
+  //FwRelativeTime,
+  //TranslationController
+} from "@freshworks/crayons-1/react";
+
+//import { TranslationController} from "@freshworks/crayons-1/dist/components"
+registerIconLibrary('feather', {
+  resolver: (name) => `https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/icons/${name}.svg`,
+  mutator: (svg,name) => (name==='feather') ? svg.setAttribute('fill', 'currentColor') : false
+  
+});
+unregisterIconLibrary("feather")
+
+function App() {
+  const el = useRef<any>(null);
+  const el1 = useRef<any>(null);
+  const el3 = useRef<any>(null);
+  const [val,setVal] = useState(1);
+  const [toasts,setToasts] = useState([])
+  const toast = ToastController({ position:'top-right'});
+ 
+  
+  useEffect(() => {
+   el1.current.onclick = function() {
+     console.log("custom action handled here");
+     setVal(22)
+   }
+    
+  },[])
+
+//  TranslationController.setLang('de')
+  return (
+    <div className="App">
+      val - {val}
+<br/>
+<FwFormWrapper />
+<FwIcon name = "feather"
+                        library="feather"
+                        color = 'red' 
+                />
+                <FwIcon name = "alert"
+                        color = 'blue'
+                        width = {20}
+                        height = {20} 
+                />
+
+      {/* <FwIcon name="123"></FwIcon>
+      <FwIcon name="pie-chart" size={20} library="feather" ></FwIcon>
+  <FwIcon name="cloud" size="20" library="heroicons" ></FwIcon>
+  <FwIcon name="calendar" size="20" library="system" ></FwIcon> */}
+     
+     {/* <FwRelativeTime></FwRelativeTime>
+     <FwButton onFwClick={() => TranslationController.setLang('eo')}>
+        EO { val}
+      </FwButton>
+
+      <FwButton onFwClick={() => TranslationController.setLang('de')}>
+        de { val}
+      </FwButton> */}
+  
+      <FwDatepicker value="2021-05-04"></FwDatepicker>
+
+      <FwButton onFwClick={() => console.log("fwclicked")}>
+        Default button with custom event handling { val}
+      </FwButton>
+      <br /> <br />
+      <FwButton onClick={() => console.log("oncliked")}>
+        Default Button
+      </FwButton>
+      <br /> <br />
+      <FwButton
+        color="danger"
+        onFwClick={() => console.log("fwClick event emitted from button")}
+      >
+        Danger button
+      </FwButton>
+      <br /> <br />
+      {/* <FwDropdownButton
+        searchable
+        label="Click me"
+        split
+        color="primary"
+        placeholder="efwewe"
+      >
+        <div slot="dropdown-options">
+          <option id="1" value="Ullu">
+            Ullu
+          </option>
+          <option id="2" value="Hotstar">
+            Hotstar
+          </option>
+          <option id="3" value="Amazon">
+            Amazon
+          </option>
+          <option id="4" value="Netflix">
+            Netflix
+          </option>
+          <option id="5" value="Mx player">
+            Mx Player
+          </option>
+          <option id="6" value="Share it">
+            Share it
+          </option>
+          <option id="7" value="Prime">
+            Amazon Prime
+          </option>
+          <option id="8" value="Watch32">
+            Watch32
+          </option>
+          <option id="9" value="YTS Movies">
+            YTS Movies
+          </option>
+          <option id="10" value="Telegram">
+            Telegram
+          </option>
+          <option id="11" value="Solar Movies">
+            Solar Movies
+          </option>
+          <option id="12" value="Yifi torrents">
+            Yifi torrents
+          </option>
+        </div>
+      </FwDropdownButton> */}
+      <br /> <br />
+     
+     
+      <FwButton modalTriggerId="small" > Open Modal </FwButton>
+
+    
+      <FwModal id="small" size="small" submitColor="danger">
+        <FwModalTitle titleText="Welcome"></FwModalTitle>
+        <FwModalContent>
+          <div>Content text</div>
+        </FwModalContent>
+        <FwModalFooter></FwModalFooter>
+      </FwModal>
+
+
+
+      <br /> <br />
+      <FwSelect
+        label="Names"
+        placeholder="Your choices"
+        state-text="Select multiple options"
+        multiple
+        onFwChange={ (e)  => console.log("ebvent", e)}
+      >
+        <FwSelectOption value="1" selected>
+          Starks
+        </FwSelectOption>
+        <FwSelectOption value="2">Lannisters</FwSelectOption>
+        <FwSelectOption value="3">Sand</FwSelectOption>
+        <FwSelectOption value="4">Greyjoys</FwSelectOption>
+        <FwSelectOption value="5">Tyrell</FwSelectOption>
+      </FwSelect>
+      <br /> <br />
+     
+      {/* <FwToastMessage type='success' id="custom-temp">
+            <div>
+               <FwButton onclick={()=> console.log("custom action here")}>crayons button custom content</FwButton> 
+              <FwButton ref={el1}>custom action content in Typescript apps</FwButton>
+              <p> Please make sure here in the above element, the event handler name is in lowercase. use `onclick` instead of `onClick`. </p>
+              <p className="cus-style">custom style content</p>
+              {val}
+            </div>
+      </FwToastMessage> */}
+
+  <FwToastMessage type='success' id="custom-temp">
+          <div>
+            {/* <FwButton onclick={()=> console.log("custom action here")}>crayons button custom content</FwButton> */}
+            <FwButton ref={el1}>custom action content in Typescript apps</FwButton>
+            <p> Please make sure here in the above element, the event handler name is in lowercase. use `onclick` instead of `onClick`. </p>
+            <p className="cus-style">custom style content</p>
+            {val}
+          </div>
+        </FwToastMessage>
+    
+
+    {/* <FwToast id="custom_toast" ref={el3}
+      sticky custom>
+      <FwToastMessage type='success' id="custom-temp">
+            <div>
+              <FwButton onclick={()=> console.log("custom action here")}>crayons button custom content</FwButton> 
+              <FwButton ref={el1}>custom action content in Typescript apps</FwButton>
+              <p> Please make sure here in the above element, the event handler name is in lowercase. use `onclick` instead of `onClick`. </p>
+              <p className="cus-style">custom style content</p>
+              {val}
+            </div>
+          </FwToastMessage>
+      </FwToast>
+
+      <FwButton
+        onClick={() =>
+          el3.current.trigger({ timeout:4000})
+        }
+      >
+        slot custom{" "}
+      </FwButton>
+ */}
+
+
+      <FwToast id="type_toast" ref={el}
+      timeout={5000} >
+      </FwToast>
+
+
+      <FwButton
+        onClick={() =>
+          toast.trigger({ type: "success", content: 'content', sticky: true})
+        }
+      >
+        Success
+      </FwButton>
+      <FwButton
+        onClick={() =>
+          el.current.trigger({
+            type: "error",
+            content: "something went wrong!",
+          })
+        }
+      >
+        Error
+      </FwButton>
+      <FwButton
+        onClick={() =>
+          el.current.trigger({ type: "warning", content: "This is a warning!" })
+        }
+      >
+        Warning
+      </FwButton>
+      <FwButton
+        onClick={() =>
+          el.current.trigger({
+            type: "inprogress",
+            content: "Request is in progress",
+          })
+        }
+      >
+        Inprogress
+      </FwButton>
+      <FwButton
+        onClick={() =>
+          toast.trigger({ contentref: "#custom-temp", timeout:4000})
+        }
+      >
+        trigger custom{" "}
+      </FwButton>
+      {/* <FwInput
+      label="Name"
+      iconLeft="add-contact"
+      stateText="Do not enter your user ID"
+      state="warning"
+      placeholder="Enter your official name"
+      required
+      clearInput>
+    </FwInput>
+    <FwInput
+      label="Password"
+      stateText="Password is incorrect"
+      state="error"
+      required
+      clearInput>
+    </FwInput>
+    <FwInput
+      label="Verification Code"
+      placeholder="Enter the verification code sent to the registered email address"
+      state="normal"
+      clearInput>
+    </FwInput>
+    <FwInput
+      label="Deprecated Field"
+      disabled
+      state="normal"
+      clearInput>
+    </FwInput>
+    <FwInput
+      label="Do Not Modify"
+      value="Not applicable"
+      readonly
+      state="normal"
+      clearInput>
+    </FwInput>
+    <FwInput value="123" type="number" label="Number Input"></FwInput>
+    <FwInput type="number" min={0} max={10} label="Number Input with min and max"></FwInput>
+    <FwInput value="3.001" type="number" step="0.1" max={5}
+    label="Decimal Input with step and max"
+    ></FwInput> */}
+     
+    </div>
+  );
+}
+
+
+export default App;

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      type="module"
+      src="./packages/crayons-core/dist/crayons/crayons.esm.js"
+    ></script>
+  </head>
+  <body>
+    <script type="module">
+      import { TranslationController } from './packages/crayons-core/dist/crayons/index.esm.js';
+      TranslationController.setLang('eo');
+    </script>
+    <fw-relative-time sync></fw-relative-time>
+  </body>
+</html>
