@@ -10,12 +10,12 @@ import "../App.css";
 
 const initialValues = {
   isCitizen: true,
-  abc: "",
+  abc: "123",
   abc1: "",
 };
 
 const staticValidationSchema = Yup.object().shape({
-  isCitizen: Yup.boolean().oneOf([true], "Select a value"),
+  isCitizen: Yup.boolean().required("required").oneOf([true], "Select a value"),
   abc: Yup.string().required("custom abc is req"),
   abc1: Yup.string().required("custom React abc1 is req"),
 });
@@ -62,14 +62,14 @@ function Pattern3() {
                 )}
 
                 <div>
-                  <FwCheckbox
-                    {...checkboxProps("isCitizen")}
-                    placeholder={"Is Citizen"}
-                    name={"isCitizen"}
-                    required={true}
-                  >
-                    Is Citizen
-                  </FwCheckbox>
+                <FwCheckbox
+                            {...checkboxProps("isCitizen")}
+                            placeholder={"Is ciziten"}
+                            name={"isCitizen"}
+                            required
+                          >
+                            Is Citizen
+                          </FwCheckbox>
                   <div>
                     {touched["isCitizen"] && errors["isCitizen"] && (
                       <label class="error" {...labelProps("isCitizen")}>

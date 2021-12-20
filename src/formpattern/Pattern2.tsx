@@ -10,7 +10,7 @@ import {
 } from "@freshworks/crayons-1/react";
 import * as Yup from "yup";
 import FwForm from "../FwForm";
-
+import CustomInput from "../CustomInput";
 import "../App.css";
 const formSchema = {
   title: "Test Form",
@@ -596,6 +596,14 @@ function Pattern2() {
                 )}
                 <br />
                 <br />
+
+                <h3> CustomReact input</h3>
+                <CustomInput touched={touched["abc1"]}
+                error={errors["abc1"]} 
+                {...inputProps("abc1", "text")}
+                />
+                <br/><br/><br/><br/>
+
 
                 <button type="submit">Submit</button>
               </form>

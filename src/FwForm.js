@@ -60,8 +60,6 @@ export default function FwForm({
     console.log({ errros: errors });
   }, []);
 
- 
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -110,7 +108,7 @@ export default function FwForm({
 
   const handleInput = (field, inputType) => async (event, ref) => {
     const target = event?.target;
-    const value = getElementValue(inputType, ref);
+    const value = getElementValue(inputType, event, ref);
 
     setValues((values) => ({ ...values, [field]: value }));
 
@@ -118,11 +116,11 @@ export default function FwForm({
     if (validateOnInput) handleValidation(field, target);
   };
 
-  const handleBlur = (field, inputType) => (_event, ref) => {
+  const handleBlur = (field, inputType) => (event, ref) => {
     if (focused) setFocused(null);
     if (!touched[field])
       setTouched((touched) => ({ ...touched, [field]: true }));
-    const value = getElementValue(inputType, ref);
+    const value = getElementValue(inputType, event, ref);
 
     setValues((values) => ({ ...values, [field]: value }));
     /** Validate, if user wants to validateOnInput */
