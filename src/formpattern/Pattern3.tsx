@@ -61,7 +61,7 @@ function Pattern3() {
                   </label>
                 )}
 
-                <div>
+                {/* <div>
                 <FwCheckbox
                             {...checkboxProps("isCitizen")}
                             placeholder={"Is ciziten"}
@@ -78,7 +78,7 @@ function Pattern3() {
                       </label>
                     )}
                   </div>
-                </div>
+                </div> */}
 
                 <h3> CustomReact input</h3>
                 <CustomInput touched={touched["abc1"]}

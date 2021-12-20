@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import {
   getElementValue,
   validateYupSchema,
@@ -6,8 +6,6 @@ import {
   yupToFormErrors,
   setNestedObjectValues,
 } from "./form/form-util";
-
-let formIds = 0;
 
 export default function FwForm({
   initialValues = {},
@@ -19,29 +17,18 @@ export default function FwForm({
   validateOnBlur = true,
 }) {
   const groups = {};
-  const formId = `crayons-form-${formIds++}`;
   let dirty = false;
-  let formRef;
-
+  
   const [isValid, setIsValid] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitCount, setSubmitCount] = useState(0);
   const [focused, setFocused] = useState(null);
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState(initialValues);
   const [touched, setTouched] = useState({});
   const [validity, setValidity] = useState({});
   const [errors, setErrors] = useState({});
-
-  function getFormControls() {
-    const children = formRef.children;
-
-    const reportValidChild = [...children].filter(
-      (c) => c.tagName === "FW-INPUT"
-    );
-
-    return reportValidChild;
-  }
+  const isMounted = useRef(false);
 
   useEffect(() => {
     setValues(initialValues);
@@ -85,11 +72,8 @@ export default function FwForm({
     setIsSubmitting(false);
     setSubmitCount(0);
   };
-
-  const handleValidation = async (field, _target) => {
+  const handleValidation = useCallback(async () => {
     setIsValidating(true);
-    console.log(`validating ${field}`);
-
     const pr = validateYupSchema(
       prepareDataForValidation(values),
       validationSchema
@@ -104,34 +88,62 @@ export default function FwForm({
       setErrors(yupToFormErrors(err));
     }
     setIsValidating(false);
-  };
+  }, [values, validationSchema]);
 
-  const handleInput = (field, inputType) => async (event, ref) => {
-    const target = event?.target;
-    const value = getElementValue(inputType, event, ref);
+  useEffect(() => {
+    if (validateOnInput || validateOnBlur) {
+      if(isMounted.current)
+      handleValidation();
+      else isMounted.current = true
+    }
+  }, [values, handleValidation, validateOnBlur, validateOnInput]);
 
-    setValues((values) => ({ ...values, [field]: value }));
+  const memoizedHandleInput = useMemo(() => {
+    return {};
+  }, []);
+  
+  const handleInput = useCallback((field, inputType) => {
+    if (!memoizedHandleInput[field]) {
+      memoizedHandleInput[field] = (event, ref) => {
+        const value = getElementValue(inputType, event, ref);
+        setValues((val) => {
+          console.log("val ", val);
+          return { ...val, [field]: value };
+        });
+      };
+    }
+    return memoizedHandleInput[field];
+  }, []);
 
-    /** Validate, if user wants to validateOnInput */
-    if (validateOnInput) handleValidation(field, target);
-  };
+  const memoizedHandleBlur = useMemo(() => {
+    return {};
+  }, []);
 
-  const handleBlur = (field, inputType) => (event, ref) => {
-    if (focused) setFocused(null);
-    if (!touched[field])
-      setTouched((touched) => ({ ...touched, [field]: true }));
-    const value = getElementValue(inputType, event, ref);
+  const handleBlur = useCallback((field, inputType) => {
+    if (!memoizedHandleBlur[field]) {
+      memoizedHandleBlur[field] = (event, ref) => {
+        const value = getElementValue(inputType, event, ref);
 
-    setValues((values) => ({ ...values, [field]: value }));
-    /** Validate, if user wants to validateOnInput */
-    if (validateOnBlur) handleValidation(field);
-  };
+        if (focused) setFocused(null);
+        if (!touched[field]) setTouched((touch) => ({ ...touch, [field]: true }));
+        setValues((val) => ({ ...val, [field]: value }));
+      };
+    }
+    return memoizedHandleBlur[field];
+  }, []);
 
-  const handleFocus = (field, _inputType) => (_event, _ref) => {
-    setFocused(field);
-    // if (!this.touched[field])
-    //   this.touched = { ...this.touched, [field]: true };
-  };
+  const memoizedHandleFocus = useMemo(() => {
+    return {};
+  }, []);
+  
+  const handleFocus = useCallback((field, inputType) => {
+    if (!memoizedHandleFocus[field]) {
+      memoizedHandleFocus[field] = (event, ref) => {
+        setFocused(field);
+      };
+    }
+    return memoizedHandleFocus[field];
+  }, []);
 
   const composedState = () => {
     return {
@@ -185,14 +197,14 @@ export default function FwForm({
       handleChange: handleInput(field, inputType),
       handleBlur: handleBlur(field, inputType),
       handleFocus: handleFocus(field, inputType),
-      id: `${formId}-input-${field}`,
+      id: `input-${field}`,
       value: values[field],
     });
 
     const radioProps = (field, value) => ({
       ...inputProps(field, "radio"),
       type: "radio",
-      id: `${formId}-input-${field}--radio-${value}`,
+      id: `input-${field}--radio-${value}`,
       value: value,
       checked: values[field] === value,
     });
@@ -206,21 +218,18 @@ export default function FwForm({
     const selectProps = (field) => ({
       type: "select",
       name: field,
-      id: `${formId}-input-${field}`,
+      id: `input-${field}`,
       handleChange: handleInput(field, "select"),
       handleBlur: handleBlur(field, "select"),
       handleFocus: handleFocus(field, "select"),
     });
 
     const labelProps = (field, value) => ({
-      htmlFor: !value
-        ? `${formId}-input-${field}`
-        : `${formId}-input-${field}--radio-${value}`,
+      htmlFor: !value ? `input-${field}` : `input-${field}--radio-${value}`,
     });
 
     const formProps = {
       onSubmit: handleSubmit,
-      ref: async (el) => (formRef = el),
     };
 
     return {

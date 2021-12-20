@@ -336,13 +336,13 @@ function createYupSchema(schema: any, config: any) {
     validator = validator["email"](...[`Enter a valid Email`]);
 
   if (inputType === "checkbox" && required)
-    validator = validator["oneOf"]([true], `Select the value`);
+    validator = validator["oneOf"]([true], `${name} is required`);
 
   if (inputType === "select" && required)
     validator = validator.min(1, `${name} is required`);
 
   if (inputType === "MULTI_SELECT" && required)
-    validator = validator.min(1, `Select atleast 1 option`);
+    validator = validator.min(1, `${name} is required`);
 
   schema[name] = validator;
   return schema;

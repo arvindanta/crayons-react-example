@@ -45,7 +45,7 @@ export const isSelectType = (type) =>
   !!type && type === 'select';
 
 export const getElementValue = (_type,_event,result) => {
-  const value = result.value;
+  const value = result.value; // if(!result) { value = e.target.value}
   return value;
 };
 

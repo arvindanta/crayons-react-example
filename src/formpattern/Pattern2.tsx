@@ -279,12 +279,14 @@ const initialValues = {
   is_indian_citizen: true,
   abc: "",
   abc1: "",
+  abc2:'',
 };
 
 const staticValidationSchema = Yup.object().shape({
   age: Yup.number().max(20, "max 20").required("Age is req"),
   abc: Yup.string().required("custom abc is req"),
   abc1: Yup.string().required("custom React abc1 is req"),
+  abc2: Yup.string().required("native abc2 is req"),
 });
 
 function mergeSchema(...schemas: any) {
@@ -382,6 +384,7 @@ const formInitialErrors = initialErrors;
 const formInitialValues = { ...dynamicInitialValues, ...initialValues };
 
 function Pattern2() {
+
   return (
     <div className="App">
       <FwForm
@@ -398,6 +401,7 @@ function Pattern2() {
             selectProps,
             touched,
           } = props;
+          const nativeInputProps = {...inputProps("abc2", "text")};
           return (
             <div>
               <form {...formProps} noValidate>
@@ -592,6 +596,25 @@ function Pattern2() {
                   <label class="error" {...labelProps("abc")}>
                     {" "}
                     {errors["abc"]}{" "}
+                  </label>
+                )}
+                <br />
+                <br />
+
+                  <label>native layoyt2</label>
+                <input
+                  name="abc2"
+                  type="text"
+                  placeholder={"custom layout in2"}
+                  required
+                  onInput={ e => { nativeInputProps.handleInput(e, {value: (e.target as any).value})}}
+                  onBlur={ e => { nativeInputProps.handleBlur(e, {value: (e.target as any).value})}}
+                  onFocus={e =>{ nativeInputProps.handleFocus(e)}}
+                ></input>
+                {touched["abc2"] && errors["abc2"] && (
+                  <label class="error" {...labelProps("abc2")}>
+                    {" "}
+                    {errors["abc2"]}{" "}
                   </label>
                 )}
                 <br />
