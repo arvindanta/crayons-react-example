@@ -9,8 +9,8 @@ function CustomInput(props) {
         type="text"
         name="abc1"
         required
-        value={props.value || ""}
         autoComplete="off"
+        value={props.value || ""}
         onChange={(e) =>
           props.handleInput(e, { value: e.target.value, name: "abc1" })
         }
