@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import React,{ useState, useEffect, useCallback, useMemo, useRef } from "react";
 import {
   getElementValue,
   validateYupSchema,
@@ -7,7 +7,7 @@ import {
   setNestedObjectValues,
 } from "./form/form-util";
 
-export default function FwForm({
+function FwForm({
   initialValues = {},
   renderer,
   initialErrors = {},
@@ -15,18 +15,19 @@ export default function FwForm({
   validationSchema = {},
   validateOnInput = true,
   validateOnBlur = true,
+  onSubmit = () => {},
+  innerRef = {}
 }) {
-  const groups = {};
   let dirty = false;
-  
-  const [isValid, setIsValid] = useState(false);
+
+  let isValid = false;
+
   const [isValidating, setIsValidating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitCount, setSubmitCount] = useState(0);
   const [focused, setFocused] = useState(null);
   const [values, setValues] = useState(initialValues);
   const [touched, setTouched] = useState({});
-  const [validity, setValidity] = useState({});
   const [errors, setErrors] = useState({});
   const isMounted = useRef(false);
 
@@ -48,6 +49,7 @@ export default function FwForm({
   }, []);
 
   const handleSubmit = async (event) => {
+    console.log("submtting");
     event.preventDefault();
     event.stopPropagation();
 
@@ -65,13 +67,25 @@ export default function FwForm({
     setSubmitCount((c) => c++);
 
     console.log({ values: values });
-    // onFormSubmit.emit({ values: values, actions: { setSubmitting } });
+    
+    onSubmit({ values });
   };
 
-  const handleReset = () => {
+  const handleReset = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     setIsSubmitting(false);
     setSubmitCount(0);
+    setValues(initialValues);
+    setTouched(setNestedObjectValues(values, false));
+    setErrors({});
+    setFocused(null);
   };
+
+
+  React.useImperativeHandle(innerRef, () => ({ handleSubmit, handleReset}));
+
+
   const handleValidation = useCallback(async () => {
     setIsValidating(true);
     const pr = validateYupSchema(
@@ -92,16 +106,15 @@ export default function FwForm({
 
   useEffect(() => {
     if (validateOnInput || validateOnBlur) {
-      if(isMounted.current)
-      handleValidation();
-      else isMounted.current = true
+      if (isMounted.current) handleValidation();
+      else isMounted.current = true;
     }
   }, [values, handleValidation, validateOnBlur, validateOnInput]);
 
   const memoizedHandleInput = useMemo(() => {
     return {};
   }, []);
-  
+
   const handleInput = useCallback((field, inputType) => {
     if (!memoizedHandleInput[field]) {
       memoizedHandleInput[field] = (event, ref) => {
@@ -125,7 +138,8 @@ export default function FwForm({
         const value = getElementValue(inputType, event, ref);
 
         if (focused) setFocused(null);
-        if (!touched[field]) setTouched((touch) => ({ ...touch, [field]: true }));
+        if (!touched[field])
+          setTouched((touch) => ({ ...touch, [field]: true }));
         setValues((val) => ({ ...val, [field]: value }));
       };
     }
@@ -135,7 +149,7 @@ export default function FwForm({
   const memoizedHandleFocus = useMemo(() => {
     return {};
   }, []);
-  
+
   const handleFocus = useCallback((field, inputType) => {
     if (!memoizedHandleFocus[field]) {
       memoizedHandleFocus[field] = (event, ref) => {
@@ -150,7 +164,6 @@ export default function FwForm({
       focused,
       values,
       errors,
-      validity,
       touched,
       isValidating,
       isSubmitting,
@@ -172,24 +185,6 @@ export default function FwForm({
   };
 
   const composedUtils = () => {
-    const groupProps = (field) => ({
-      "data-for": field,
-      class: {
-        "input-group": true,
-        "was-touched": touched[field],
-        "has-focus": focused === field,
-        "has-value":
-          typeof values[field] === "string"
-            ? !!values[field]
-            : typeof values[field] === "number"
-            ? typeof values[field] !== null
-            : false,
-        "has-error":
-          !validity[field] || (validity[field] && !validity[field].valid),
-      },
-      ref: (el) => (groups = { ...groups, [field]: el }),
-    });
-
     const inputProps = (field, inputType) => ({
       name: field,
       type: inputType,
@@ -230,10 +225,10 @@ export default function FwForm({
 
     const formProps = {
       onSubmit: handleSubmit,
+      onReset: handleReset,
     };
 
     return {
-      groupProps,
       inputProps,
       selectProps,
       checkboxProps,
@@ -256,3 +251,6 @@ export default function FwForm({
   };
   return renderer(renderProps);
 }
+
+
+export default React.memo(FwForm)
