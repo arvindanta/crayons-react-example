@@ -6,14 +6,12 @@ import {
   FwModal,
   FwModalContent,
   FwModalFooter,
-  FwModalTitle
+  FwModalTitle,
 } from "@freshworks/crayons-1/react";
-import {JSX} from "@freshworks/crayons-1/dist/types/"
-
 
 import * as Yup from "yup";
 import FwForm from "../FwForm";
-import CustomInput from "../CustomInput"
+import CustomInput from "../CustomInput";
 
 import "../App.css";
 
@@ -37,92 +35,106 @@ const formInitialValues = { ...initialValues };
 
 function Pattern3() {
   const formRef = useRef<any>();
-  const handleFormSubmit = (e:any) =>{
+  const handleFormSubmit = (e: any) => {
     console.log("subitfosod");
-    formRef.current.handleSubmit(e)
-  }
+    formRef.current.handleSubmit(e);
+  };
+  const handleFormReset = (e: any) => {
+    console.log("rest");
+    formRef.current.handleReset(e);
+  };
   return (
     <div className="App">
       <FwModal isOpen slider>
-      <FwModalTitle>
-      <span>Header text</span>
-    </FwModalTitle>
+        <FwModalTitle>
+          <span>Header text</span>
+        </FwModalTitle>
         <FwModalContent>
-        <FwForm
-          initialValues={formInitialValues}
-          validationSchema={staticValidationSchema}
-          initialErrors={formInitialErrors}
-          innerRef={formRef}
-          renderer={(props: any) => {
-            const {
-              errors,
-              formProps,
-              labelProps,
-              inputProps,
-              touched,
-              checkboxProps,
-              handleSubmit,
-              handleReset
-            } = props;
-            return (
-              <div>
-                <form {...formProps} noValidate>
-                  <h3> No Schema render formcontrols</h3>
-                  <FwInput
-                    name="abc"
-                    type="text"
-                    label="custom layoyt"
-                    placeholder={"custom layout in"}
-                    {...inputProps("abc", "text")}
-                    required
-                  ></FwInput>
-                  {touched["abc"] && errors["abc"] && (
-                    <label class="error" {...labelProps("abc")}>
-                      {" "}
-                      {errors["abc"]}{" "}
-                    </label>
-                  )}
+          <FwForm
+            initialValues={formInitialValues}
+            validationSchema={staticValidationSchema}
+            initialErrors={formInitialErrors}
+            innerRef={formRef}
+            renderer={(props: any) => {
+              const {
+                errors,
+                formProps,
+                labelProps,
+                inputProps,
+                touched,
+                checkboxProps,
+                handleSubmit,
+                handleReset,
+              } = props;
+              return (
+                <div>
+                  <form {...formProps} noValidate>
+                    <h3> No Schema render formcontrols</h3>
+                    <FwInput
+                      name="abc"
+                      type="text"
+                      label="custom layoyt"
+                      placeholder={"custom layout in"}
+                      {...inputProps("abc", "text")}
+                      required
+                    ></FwInput>
+                    {touched["abc"] && errors["abc"] && (
+                      <label class="error" {...labelProps("abc")}>
+                        {" "}
+                        {errors["abc"]}{" "}
+                      </label>
+                    )}
 
-                  <div>
-                  <FwCheckbox
-                              {...checkboxProps("isCitizen")}
-                              placeholder={"Is ciziten"}
-                              name={"isCitizen"}
-                              required
-                            >
-                              Is Citizen
-                            </FwCheckbox>
                     <div>
-                      {JSON.stringify(touched)}
-                      {touched["isCitizen"] && errors["isCitizen"] && (
-                        <label class="error" {...labelProps("isCitizen")}>
-                          {" "}
-                          {errors["isCitizen"]}{" "}
-                        </label>
-                      )}
+                      <FwCheckbox
+                        {...checkboxProps("isCitizen")}
+                        placeholder={"Is ciziten"}
+                        name={"isCitizen"}
+                        required
+                      >
+                        Is Citizen
+                      </FwCheckbox>
+                      <div>
+                        {touched["isCitizen"] && errors["isCitizen"] && (
+                          <label class="error" {...labelProps("isCitizen")}>
+                            {" "}
+                            {errors["isCitizen"]}{" "}
+                          </label>
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  <h3> CustomReact input</h3>
-                  <CustomInput touched={touched["abc1"]}
-                  error={errors["abc1"]} 
-                  {...inputProps("abc1", "text")}
-                  />
-                  <br/><br/><br/><br/>
+                    <h3> CustomReact input</h3>
+                    <CustomInput
+                      touched={touched["abc1"]}
+                      error={errors["abc1"]}
+                      {...inputProps("abc1", "text")}
+                    />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
 
-                  {/* <button onClick={handleSubmit}>Submit</button>
+                    {/* <button onClick={handleSubmit}>Submit</button>
 
                   <button onClick={handleReset}>Reset</button> */}
-                </form>
-              </div>
-            );
-          }}
-        />
-      </FwModalContent>
-      <FwModalFooter>
-        <button type="button" onClick={handleFormSubmit}>Custom Form Submit in modal</button>
-        {/* <FwButton>OK</FwButton> */}
-      </FwModalFooter>
+                  </form>
+                </div>
+              );
+            }}
+          />
+        </FwModalContent>
+        <FwModalFooter>
+          <FwButton color="secondary" onClick={handleFormReset}>
+            Custom Form Reset in modal
+          </FwButton>
+          <FwButton onClick={handleFormSubmit}>
+            Custom Form Submit in modal
+          </FwButton>
+
+
+          {/* <FwButton>OK</FwButton> */}
+        </FwModalFooter>
       </FwModal>
     </div>
   );

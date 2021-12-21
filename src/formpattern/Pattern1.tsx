@@ -1,4 +1,5 @@
-import { FwFormWrapper } from "@freshworks/crayons-1/react";
+import { useRef } from 'react';
+import { FwFormWrapper, FwModal, FwButton, FwModalFooter,FwModalContent } from "@freshworks/crayons-1/react";
 import * as Yup from "yup";
 
 import "../App.css";
@@ -372,13 +373,31 @@ const formInitialErrors = initialErrors;
 const formInitialValues = { ...dynamicInitialValues, ...initialValues };
 
 function Pattern1() {
+  const formRef = useRef<any>(null);
+  const handleFormSubmit = (e:any)=>{
+    formRef.current.doSubmit(e);
+  }
+  const handleFormReset = (e:any)=>{
+    formRef.current.doReset(e);
+  }
   return (
     <div className="App">
+      <FwModal slider isOpen>
+        <FwModalContent>
       <FwFormWrapper
         initialValues={formInitialValues}
         validationSchema={formValidationSchema}
         initialErrors={formInitialErrors}
+        ref={formRef}
       />
+      </FwModalContent>
+      <FwModalFooter>
+      <FwButton color="secondary" onClick={handleFormReset}>
+            Custom Form Reset in modal
+          </FwButton>
+      <FwButton onClick={handleFormSubmit}>Custom Submit</FwButton>
+      </FwModalFooter>
+      </FwModal>
     </div>
   );
 }

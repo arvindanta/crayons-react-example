@@ -1,4 +1,11 @@
-import React,{ useState, useEffect, useCallback, useMemo, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+  useImperativeHandle,
+} from "react";
 import {
   getElementValue,
   validateYupSchema,
@@ -16,7 +23,7 @@ function FwForm({
   validateOnInput = true,
   validateOnBlur = true,
   onSubmit = () => {},
-  innerRef = {}
+  innerRef = {},
 }) {
   let dirty = false;
 
@@ -67,7 +74,7 @@ function FwForm({
     setSubmitCount((c) => c++);
 
     console.log({ values: values });
-    
+
     onSubmit({ values });
   };
 
@@ -77,14 +84,12 @@ function FwForm({
     setIsSubmitting(false);
     setSubmitCount(0);
     setValues(initialValues);
-    setTouched(setNestedObjectValues(values, false));
     setErrors({});
+    setTouched({});
     setFocused(null);
   };
 
-
-  React.useImperativeHandle(innerRef, () => ({ handleSubmit, handleReset}));
-
+  useImperativeHandle(innerRef, () => ({ handleSubmit, handleReset }));
 
   const handleValidation = useCallback(async () => {
     setIsValidating(true);
@@ -210,13 +215,17 @@ function FwForm({
       checked: !!values[field],
     });
 
-    const selectProps = (field) => ({
+    const selectProps = (field, inputType) => ({
       type: "select",
       name: field,
       id: `input-${field}`,
       handleChange: handleInput(field, "select"),
       handleBlur: handleBlur(field, "select"),
       handleFocus: handleFocus(field, "select"),
+      // value:
+      //   inputType === "MULTI_SELECT"
+      //     ? values[field]?.map((v) => v.value || v)
+      //     : values[field]?.value || values[field] ,
     });
 
     const labelProps = (field, value) => ({
@@ -252,5 +261,4 @@ function FwForm({
   return renderer(renderProps);
 }
 
-
-export default React.memo(FwForm)
+export default React.memo(FwForm);

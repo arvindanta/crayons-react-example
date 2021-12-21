@@ -9,9 +9,9 @@ function App() {
 
   return (
     <div className="App">
-         {/* <Pattern1/> */}
+         <Pattern1/>
          {/* <Pattern2/> */}
-         <Pattern3/>
+         {/* <Pattern3/> */}
 
     </div>
   );

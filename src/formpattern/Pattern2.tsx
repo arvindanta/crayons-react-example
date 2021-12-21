@@ -279,7 +279,7 @@ const initialValues = {
   is_indian_citizen: true,
   abc: "",
   abc1: "",
-  abc2:'',
+  abc2: "",
 };
 
 const staticValidationSchema = Yup.object().shape({
@@ -384,7 +384,6 @@ const formInitialErrors = initialErrors;
 const formInitialValues = { ...dynamicInitialValues, ...initialValues };
 
 function Pattern2() {
-
   return (
     <div className="App">
       <FwForm
@@ -401,7 +400,7 @@ function Pattern2() {
             selectProps,
             touched,
           } = props;
-          const nativeInputProps = {...inputProps("abc2", "text")};
+          const nativeInputProps = { ...inputProps("abc2", "text") };
           return (
             <div>
               <form {...formProps} noValidate>
@@ -601,15 +600,25 @@ function Pattern2() {
                 <br />
                 <br />
 
-                  <label>native layoyt2</label>
+                <label>native layoyt2</label>
                 <input
                   name="abc2"
                   type="text"
                   placeholder={"custom layout in2"}
                   required
-                  onInput={ e => { nativeInputProps.handleInput(e, {value: (e.target as any).value})}}
-                  onBlur={ e => { nativeInputProps.handleBlur(e, {value: (e.target as any).value})}}
-                  onFocus={e =>{ nativeInputProps.handleFocus(e)}}
+                  onInput={(e) => {
+                    nativeInputProps.handleInput(e, {
+                      value: (e.target as any).value,
+                    });
+                  }}
+                  onBlur={(e) => {
+                    nativeInputProps.handleBlur(e, {
+                      value: (e.target as any).value,
+                    });
+                  }}
+                  onFocus={(e) => {
+                    nativeInputProps.handleFocus(e);
+                  }}
                 ></input>
                 {touched["abc2"] && errors["abc2"] && (
                   <label class="error" {...labelProps("abc2")}>
@@ -621,12 +630,15 @@ function Pattern2() {
                 <br />
 
                 <h3> CustomReact input</h3>
-                <CustomInput touched={touched["abc1"]}
-                error={errors["abc1"]} 
-                {...inputProps("abc1", "text")}
+                <CustomInput
+                  touched={touched["abc1"]}
+                  error={errors["abc1"]}
+                  {...inputProps("abc1", "text")}
                 />
-                <br/><br/><br/><br/>
-
+                <br />
+                <br />
+                <br />
+                <br />
 
                 <button type="submit">Submit</button>
               </form>
