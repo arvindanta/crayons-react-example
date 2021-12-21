@@ -5,14 +5,8 @@ function CustomInputSlot(props) {
   useWhyDidYouUpdate("FieldsSlots", props);
   return (
     <>
-      <input
-        type="text"
-        name="abc1"
-        required
-        autoComplete="off"
-       
-      ></input>
-  </>
+      <input type="text" name="abc1" required autoComplete="off"></input>
+    </>
   );
 }
 
