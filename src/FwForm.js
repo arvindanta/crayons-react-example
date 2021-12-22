@@ -285,7 +285,7 @@ function FwForm({
     ...utils,
     controlProps: utils
   };
-  return <form {...utils.formProps} noValidate>{renderer(renderProps)}</form>;
+  return <form id="fw_form_wrapper" {...utils.formProps} noValidate>{renderer(renderProps)}</form>;
 }
 
 export default React.memo(FwForm);
