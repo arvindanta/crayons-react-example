@@ -228,10 +228,10 @@ function FwForm({
       //     : values[field]?.value || values[field] ,
       value:
       inputType === 'MULTI_SELECT'  // for multiselect pass Array
-        ? values[field]?.map((v) => v.value || v)
+        ? values[field]?.map((v) => v.value || v) || []
         : Array.isArray(values[field]) // single select but the value is an array, pass 0th index
-        ? values[field]?.map((v) => v.value || v)[0]
-        : values[field],
+        ? values[field]?.map((v) => v.value || v)[0] || ''
+        : values[field] || '',
     });
 
     const labelProps = (field, value) => ({
