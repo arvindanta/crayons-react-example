@@ -22,8 +22,7 @@ function FwForm({
   validationSchema = {},
   validateOnInput = true,
   validateOnBlur = true,
-  onSubmit = () => {},
-  innerRef = {},
+  innerRef,
 }) {
   let dirty = false;
 
@@ -31,7 +30,6 @@ function FwForm({
 
   const [isValidating, setIsValidating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitCount, setSubmitCount] = useState(0);
   const [focused, setFocused] = useState(null);
   const [values, setValues] = useState(initialValues);
   const [touched, setTouched] = useState({});
@@ -56,40 +54,68 @@ function FwForm({
   }, []);
 
   const handleSubmit = async (event) => {
-    console.log("submtting");
-    event.preventDefault();
-    event.stopPropagation();
+    event?.preventDefault();
+    event?.stopPropagation();
 
-    const isValid = true;
+    let isValid = false;
     // on clicking submit, mark all fields as touched
+
     setTouched(setNestedObjectValues(values, true));
 
     handleValidation();
 
-    console.log({ errros: errors });
+    console.log({ errors: errors });
 
-    console.log("is Valid ", isValid);
-
-    setIsSubmitting(true);
-    setSubmitCount((c) => c++);
+    isValid = !errors || Object.keys(errors).length === 0;
 
     console.log({ values: values });
 
-    onSubmit({ values });
+    console.log("is Valid Form", isValid);
+
+    if (!isValid) {
+      return;
+    }
+    setIsSubmitting(true);
+
+   
+
+    return values;
   };
 
   const handleReset = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
+    event?.preventDefault();
+    event?.stopPropagation();
     setIsSubmitting(false);
-    setSubmitCount(0);
     setValues(initialValues);
     setErrors({});
     setTouched({});
     setFocused(null);
   };
 
-  useImperativeHandle(innerRef, () => ({ handleSubmit, handleReset }));
+  const setFieldValue = (fieldObj) => {
+    setValues((values) => ({ ...values, ...fieldObj }));
+    Object.keys(fieldObj).forEach((k) =>
+      setTouched((touched) => ({ ...touched, [k]: true }))
+    );
+  };
+
+  const setFieldErrors = (errorObj) => {
+    setErrors((errors) => ({ ...errors, ...errorObj }));
+    Object.keys(errorObj).forEach((k) =>
+      setTouched((touched) => ({ ...touched, [k]: true }))
+    );
+  };
+
+  let formRef = React.useRef();
+  if(!innerRef){
+    innerRef = formRef;
+  }
+  useImperativeHandle(innerRef, () => ({
+    doSubmit: handleSubmit,
+    doReset: handleReset,
+    setFieldErrors,
+    setFieldValue,
+  }));
 
   const handleValidation = useCallback(async () => {
     setIsValidating(true);
@@ -172,7 +198,6 @@ function FwForm({
       touched,
       isValidating,
       isSubmitting,
-      submitCount,
     };
   };
 
@@ -221,17 +246,12 @@ function FwForm({
       id: `input-${field}`,
       handleChange: handleInput(field, "select"),
       handleBlur: handleBlur(field, "select"),
-      handleFocus: handleFocus(field, "select"),
-      // value:
-      //   inputType === "MULTI_SELECT"
-      //     ? values[field]?.map((v) => v.value || v)
-      //     : values[field]?.value || values[field] ,
       value:
-      inputType === 'MULTI_SELECT'  // for multiselect pass Array
-        ? values[field]?.map((v) => v.value || v) || []
-        : Array.isArray(values[field]) // single select but the value is an array, pass 0th index
-        ? values[field]?.map((v) => v.value || v)[0] || ''
-        : values[field] || '',
+        inputType === "MULTI_SELECT" // for multiselect pass Array
+          ? values[field]?.map((v) => v.value || v) || []
+          : Array.isArray(values[field]) // single select but the value is an array, pass 0th index
+          ? values[field]?.map((v) => v.value || v)[0] || ""
+          : values[field] || "",
     });
 
     const labelProps = (field, value) => ({
@@ -263,8 +283,9 @@ function FwForm({
     ...handlers,
     ...computedProps,
     ...utils,
+    controlProps: utils
   };
-  return renderer(renderProps);
+  return <form {...utils.formProps} noValidate>{renderer(renderProps)}</form>;
 }
 
 export default React.memo(FwForm);

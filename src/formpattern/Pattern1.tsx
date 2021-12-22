@@ -375,7 +375,20 @@ const formInitialValues = { ...dynamicInitialValues, ...initialValues };
 function Pattern1() {
   const formRef = useRef<any>(null);
   const handleFormSubmit = (e:any)=>{
-    formRef.current.doSubmit(e);
+    const values = formRef.current.doSubmit(e);
+    console.log({ result : values})
+
+    // make ajax post end point with values 
+    // fetch("/post",values);
+    
+    // if error from backend , set Errors - passing key value pair
+    // formRef.current.setErrors({
+
+    // })
+
+    // reset the form if required if success
+    // formRef.current.doReset(e);
+
   }
   const handleFormReset = (e:any)=>{
     formRef.current.doReset(e);
@@ -388,6 +401,7 @@ function Pattern1() {
         initialValues={formInitialValues}
         validationSchema={formValidationSchema}
         initialErrors={formInitialErrors}
+        formSchema={formSchema}
         ref={formRef}
       />
       </FwModalContent>

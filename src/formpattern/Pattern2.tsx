@@ -1,18 +1,18 @@
+import { useRef, useCallback } from "react";
+
 import {
   FwInput,
-  FwTextarea,
-  FwDatepicker,
-  FwTimepicker,
-  FwRadioGroup,
-  FwRadio,
-  FwCheckbox,
-  FwSelect,
+  FwButton,
+  FwFormControl,
+  FwModal,
+  FwModalContent,
+  FwModalFooter,
 } from "@freshworks/crayons-1/react";
 import * as Yup from "yup";
 import FwForm from "../FwForm";
 import CustomInput from "../CustomInput";
 import "../App.css";
-const formSchema = {
+const formSchema: any = {
   title: "Test Form",
   name: "Test Form",
   fields: [
@@ -280,6 +280,7 @@ const initialValues = {
   abc: "",
   abc1: "",
   abc2: "",
+  sss:''
 };
 
 const staticValidationSchema = Yup.object().shape({
@@ -287,6 +288,7 @@ const staticValidationSchema = Yup.object().shape({
   abc: Yup.string().required("custom abc is req"),
   abc1: Yup.string().required("custom React abc1 is req"),
   abc2: Yup.string().required("native abc2 is req"),
+  sss: Yup.string().required("native sss is req"),
 });
 
 function mergeSchema(...schemas: any) {
@@ -373,279 +375,144 @@ const formValidationSchema = mergeSchema(
   staticValidationSchema
 );
 
-const dynamicInitialValues = formSchema.fields.reduce((acc, field) => {
-  return {
-    ...acc,
-    [field.name]: field.type === "checkbox" ? false : undefined,
-  };
-}, {});
+const dynamicInitialValues = formSchema.fields.reduce(
+  (acc: any, field: any) => {
+    return {
+      ...acc,
+      [field.name]: field.type === "checkbox" ? false : undefined,
+    };
+  },
+  {}
+);
 
 const formInitialErrors = initialErrors;
 const formInitialValues = { ...dynamicInitialValues, ...initialValues };
 
 function Pattern2() {
+  const formRef = useRef<any>(null);
+  const handleFormSubmit = (e: any) => {
+    const values = formRef.current.doSubmit(e);
+    console.log({ result: values });
+
+    // make ajax post end point with values
+    // fetch("/post",values);
+
+    // if error from backend , set Errors - passing key value pair
+    // formRef.current.setErrors({
+
+    // })
+
+    // reset the form if required if success
+    // formRef.current.doReset(e);
+  };
+  const handleFormReset = (e: any) => {
+    formRef.current.doReset(e);
+  };
+
+  const handleCustomInputChange = useCallback((e: any) => {
+    formRef.current.setFieldValue({abc1: (e.target as HTMLInputElement)?.value})
+  }, [])
   return (
     <div className="App">
-      <FwForm
-        initialValues={formInitialValues}
-        validationSchema={formValidationSchema}
-        initialErrors={formInitialErrors}
-        renderer={(props: any) => {
-          const {
-            errors,
-            formProps,
-            labelProps,
-            inputProps,
-            checkboxProps,
-            selectProps,
-            touched,
-          } = props;
-          const nativeInputProps = { ...inputProps("abc2", "text") };
-          return (
-            <div>
-              <form {...formProps} noValidate>
-                {formSchema.fields.map((field) => {
-                  let cmp;
-                  switch (field.type) {
-                    case "input":
-                      cmp = (
-                        <>
-                          <FwInput
-                            {...inputProps(field.name, field.inputType)}
-                            type={field.inputType}
-                            label={field.label}
-                            name={field.name}
-                            placeholder={field.placeholder}
-                            required={field.required}
-                          ></FwInput>
-                          {touched[field.name] && errors[field.name] && (
-                            <label class="error" {...labelProps(field.name)}>
-                              {" "}
-                              {errors[field.name]}{" "}
-                            </label>
-                          )}
-                        </>
-                      );
-                      break;
+      <FwModal slider isOpen>
+        <FwModalContent>
+          <FwForm
+            initialValues={formInitialValues}
+            validationSchema={formValidationSchema}
+            initialErrors={formInitialErrors}
+            innerRef={formRef}
+            renderer={(props: any) => {
+              const { controlProps, touched, errors } = props;
+              return (
+                <div>
+                  {formSchema.fields.map((field: any) => {
+                    return (
+                      <FwFormControl
+                        key={field.name}
+                        type={field.type}
+                        inputType={field.inputType}
+                        name={field.name}
+                        placeholder={field.placeholder}
+                        required={field.required}
+                        label={field.label}
+                        choices={field.choices}
+                        controlProps={controlProps}
+                        touched={touched[field.name]}
+                        error={errors[field.name]}
+                      ></FwFormControl>
+                    );
+                  })}
+                  <br />
+                  <br />
+                  <h3> This is rendered apart from the json schema</h3>
+                  <FwFormControl
+                    type={"input"}
+                    inputType={"text"}
+                    name={"abc"}
+                    placeholder={"Custom Layout"}
+                    required
+                    label={"Custom Layout"}
+                    controlProps={controlProps}
+                    touched={touched["abc"]}
+                    error={errors["abc"]}
+                  ></FwFormControl>
 
-                    case "textarea":
-                      cmp = (
-                        <>
-                          <FwTextarea
-                            {...inputProps(field.name, field.inputType)}
-                            label={field.label}
-                            placeholder={field.placeholder}
-                            name={field.name}
-                            required={field.required}
-                          ></FwTextarea>
-                          {touched[field.name] && errors[field.name] && (
-                            <label class="error" {...labelProps(field.name)}>
-                              {" "}
-                              {errors[field.name]}{" "}
-                            </label>
-                          )}
-                        </>
-                      );
-                      break;
+                  <h3> Form Control Slot native control</h3>
 
-                    case "date":
-                      cmp = (
-                        <>
-                          <FwDatepicker
-                            {...inputProps(field.name, field.inputType)}
-                            label={field.label}
-                            placeholder={field.placeholder}
-                            name={field.name}
-                            required={field.required}
-                          ></FwDatepicker>
-                          {touched[field.name] && errors[field.name] && (
-                            <label class="error" {...labelProps(field.name)}>
-                              {" "}
-                              {errors[field.name]}{" "}
-                            </label>
-                          )}
-                        </>
-                      );
-                      break;
+                  <FwFormControl
+                    type="input"
+                    inputType={"text"}
+                    name={"sss"}
+                    placeholder={"Custom layout"}
+                    required={true}
+                    label={"Custom Layout apart from json schema"}
+                    controlProps={controlProps}
+                    touched={touched["sss"]}
+                    error={errors["sss"]}
+                  >
+                    <input
+                      placeholder="sss"
+                      id="sss"
+                      name="sss"
+                      required
+                      onChange={(e) =>
+                        formRef.current.setFieldValue({ sss: e.target.value })
+                      }
+                      onBlur={(e) =>
+                        formRef.current.setFieldValue({ sss: e.target.value })
+                      }
+                    ></input>
+                  </FwFormControl>
 
-                    case "checkbox":
-                      cmp = (
-                        <div>
-                          <FwCheckbox
-                            {...checkboxProps(field.name)}
-                            placeholder={field.placeholder}
-                            name={field.name}
-                            required={field.required}
-                          >
-                            {field.label}
-                          </FwCheckbox>
-                          <div>
-                            {touched[field.name] && errors[field.name] && (
-                              <label class="error" {...labelProps(field.name)}>
-                                {" "}
-                                {errors[field.name]}{" "}
-                              </label>
-                            )}
-                          </div>
-                        </div>
-                      );
-                      break;
-
-                    case "radio":
-                      cmp = (
-                        <>
-                          <div>
-                            <FwRadioGroup
-                              allow-empty
-                              {...inputProps(field.name, field.inputType)}
-                              label={field.label}
-                              placeholder={field.placeholder}
-                              name={field.name}
-                              required={field.required}
-                            >
-                              {" "}
-                              {field.choices?.map((ch) => {
-                                return (
-                                  <FwRadio value={ch.value}>{ch.value}</FwRadio>
-                                );
-                              })}
-                            </FwRadioGroup>
-                            <div>
-                              {touched[field.name] && errors[field.name] && (
-                                <label
-                                  class="error"
-                                  {...labelProps(field.name)}
-                                >
-                                  {" "}
-                                  {errors[field.name]}{" "}
-                                </label>
-                              )}
-                            </div>
-                          </div>
-                        </>
-                      );
-                      break;
-
-                    case "select":
-                      cmp = (
-                        <>
-                          <div>
-                            <FwSelect
-                              {...selectProps(field.name)}
-                              label={field.label}
-                              placeholder={field.placeholder}
-                              name={field.name}
-                              required={field.required}
-                              options={field.choices?.map((f) => ({
-                                ...f,
-                                text: f.value,
-                              }))}
-                              multiple={field.inputType === "MULTI_SELECT"}
-                            ></FwSelect>
-                            <div>
-                              {touched[field.name] && errors[field.name] && (
-                                <label
-                                  class="error"
-                                  {...labelProps(field.name)}
-                                >
-                                  {" "}
-                                  {errors[field.name]}{" "}
-                                </label>
-                              )}
-                            </div>
-                          </div>
-                        </>
-                      );
-                      break;
-
-                    case "time":
-                      cmp = (
-                        <>
-                          <FwTimepicker
-                            {...inputProps(field.name, field.inputType)}
-                            label={field.label}
-                            placeholder={field.placeholder}
-                            name={field.name}
-                            required={field.required}
-                          ></FwTimepicker>
-                          {touched[field.name] && errors[field.name] && (
-                            <label class="error" {...labelProps(field.name)}>
-                              {" "}
-                              {errors[field.name]}{" "}
-                            </label>
-                          )}
-                        </>
-                      );
-                      break;
-                  }
-                  return cmp;
-                })}
-                <br />
-                <br />
-                <h3> This is rendered apart from the json schema</h3>
-                <FwInput
-                  name="abc"
-                  type="text"
-                  label="custom layoyt"
-                  placeholder={"custom layout in"}
-                  {...inputProps("abc", "text")}
-                  required
-                ></FwInput>
-                {touched["abc"] && errors["abc"] && (
-                  <label class="error" {...labelProps("abc")}>
-                    {" "}
-                    {errors["abc"]}{" "}
-                  </label>
-                )}
-                <br />
-                <br />
-
-                <label>native layoyt2</label>
-                <input
-                  name="abc2"
-                  type="text"
-                  placeholder={"custom layout in2"}
-                  required
-                  onInput={(e) => {
-                    nativeInputProps.handleInput(e, {
-                      value: (e.target as any).value,
-                    });
-                  }}
-                  onBlur={(e) => {
-                    nativeInputProps.handleBlur(e, {
-                      value: (e.target as any).value,
-                    });
-                  }}
-                  onFocus={(e) => {
-                    nativeInputProps.handleFocus(e);
-                  }}
-                ></input>
-                {touched["abc2"] && errors["abc2"] && (
-                  <label class="error" {...labelProps("abc2")}>
-                    {" "}
-                    {errors["abc2"]}{" "}
-                  </label>
-                )}
-                <br />
-                <br />
-
-                <h3> CustomReact input</h3>
-                <CustomInput
-                  touched={touched["abc1"]}
-                  error={errors["abc1"]}
-                  {...inputProps("abc1", "text")}
-                />
-                <br />
-                <br />
-                <br />
-                <br />
-
-                <button type="submit">Submit</button>
-              </form>
-            </div>
-          );
-        }}
-      />
+                  <h3> Custom React input</h3>
+                  <FwFormControl
+                    type="input"
+                    inputType={"text"}
+                    name={"abc1"}
+                    placeholder={"Custom React"}
+                    required={true}
+                    label={"Custom React Input"}
+                    controlProps={controlProps}
+                    touched={touched["abc1"]}
+                    error={errors["abc1"]}
+                  >
+                   <CustomInput 
+                    onChange={handleCustomInputChange}
+                    onBlur={handleCustomInputChange}
+                   />
+                </FwFormControl>
+                </div>
+              );
+            }}
+          />
+        </FwModalContent>
+        <FwModalFooter>
+          <FwButton color="secondary" onClick={handleFormReset}>
+            Custom Form Reset in modal
+          </FwButton>
+          <FwButton onClick={handleFormSubmit}>Custom Submit</FwButton>
+        </FwModalFooter>
+      </FwModal>
     </div>
   );
 }

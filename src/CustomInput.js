@@ -10,19 +10,14 @@ function CustomInput(props) {
         name="abc1"
         required
         autoComplete="off"
-        value={props.value || ""}
         onChange={(e) =>
-          props.handleInput(e, { value: e.target.value, name: "abc1" })
+          props.onChange(e)
         }
         onBlur={(e) =>
-          props.handleBlur(e, { value: e.target.value, name: "abc1" })
-        }
-        onFocus={(e) =>
-          props.handleFocus(e, { value: e.target.value, name: "abc1" })
+          props.onBlur(e)
         }
       ></input>
 
-      {props.touched && <div style={{ color: "red" }}>{props.error}</div>}
     </>
   );
 }
