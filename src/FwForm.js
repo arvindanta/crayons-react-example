@@ -60,7 +60,9 @@ function FwForm({
     let isValid = false;
     // on clicking submit, mark all fields as touched
 
-    setTouched(setNestedObjectValues(values, true));
+    let keys = [...Object.keys(values), ...Object.keys(errors)];
+
+    keys.forEach((k) => setTouched((touched) => ({ ...touched, [k]: true })));
 
     handleValidation();
 
@@ -76,8 +78,6 @@ function FwForm({
       return;
     }
     setIsSubmitting(true);
-
-   
 
     return values;
   };
@@ -107,7 +107,7 @@ function FwForm({
   };
 
   let formRef = React.useRef();
-  if(!innerRef){
+  if (!innerRef) {
     innerRef = formRef;
   }
   useImperativeHandle(innerRef, () => ({
@@ -283,9 +283,13 @@ function FwForm({
     ...handlers,
     ...computedProps,
     ...utils,
-    controlProps: utils
+    controlProps: utils,
   };
-  return <form id="fw_form_wrapper" {...utils.formProps} noValidate>{renderer(renderProps)}</form>;
+  return (
+    <form id="fw_form_wrapper" {...utils.formProps} noValidate>
+      {renderer(renderProps)}
+    </form>
+  );
 }
 
 export default React.memo(FwForm);
