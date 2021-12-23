@@ -1,5 +1,11 @@
-import { useRef } from 'react';
-import { FwFormWrapper, FwModal, FwButton, FwModalFooter,FwModalContent } from "@freshworks/crayons-1/react";
+import { useRef } from "react";
+import {
+  FwFormWrapper,
+  FwModal,
+  FwButton,
+  FwModalFooter,
+  FwModalContent,
+} from "@freshworks/crayons-1/react";
 import * as Yup from "yup";
 
 import "../App.css";
@@ -374,13 +380,13 @@ const formInitialValues = { ...dynamicInitialValues, ...initialValues };
 
 function Pattern1() {
   const formRef = useRef<any>(null);
-  const handleFormSubmit = (e:any)=>{
+  const handleFormSubmit = (e: any) => {
     const values = formRef.current.doSubmit(e);
-    console.log({ result : values})
+    console.log({ result: values });
 
-    // make ajax post end point with values 
+    // make ajax post end point with values
     // fetch("/post",values);
-    
+
     // if error from backend , set Errors - passing key value pair
     // formRef.current.setErrors({
 
@@ -388,29 +394,28 @@ function Pattern1() {
 
     // reset the form if required if success
     // formRef.current.doReset(e);
-
-  }
-  const handleFormReset = (e:any)=>{
+  };
+  const handleFormReset = (e: any) => {
     formRef.current.doReset(e);
-  }
+  };
   return (
     <div className="App">
       <FwModal slider isOpen>
         <FwModalContent>
-      <FwFormWrapper
-        initialValues={formInitialValues}
-        validationSchema={formValidationSchema}
-        initialErrors={formInitialErrors}
-        formSchema={formSchema}
-        ref={formRef}
-      />
-      </FwModalContent>
-      <FwModalFooter>
-      <FwButton color="secondary" onClick={handleFormReset}>
+          <FwFormWrapper
+            initialValues={formInitialValues}
+            validationSchema={formValidationSchema}
+            initialErrors={formInitialErrors}
+            formSchema={formSchema}
+            ref={formRef}
+          />
+        </FwModalContent>
+        <FwModalFooter>
+          <FwButton color="secondary" onClick={handleFormReset}>
             Custom Form Reset in modal
           </FwButton>
-      <FwButton onClick={handleFormSubmit}>Custom Submit</FwButton>
-      </FwModalFooter>
+          <FwButton onClick={handleFormSubmit}>Custom Submit</FwButton>
+        </FwModalFooter>
       </FwModal>
     </div>
   );

@@ -3,6 +3,7 @@ import React from "react";
 import useWhyDidYouUpdate from "./why";
 function CustomInput(props) {
   useWhyDidYouUpdate("Fields", props);
+  console.log(props)
   return (
     <>
       <input
@@ -10,6 +11,7 @@ function CustomInput(props) {
         name="abc1"
         required
         autoComplete="off"
+        value={props.value}
         onChange={(e) =>
           props.onChange(e)
         }
@@ -17,7 +19,6 @@ function CustomInput(props) {
           props.onBlur(e)
         }
       ></input>
-
     </>
   );
 }

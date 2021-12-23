@@ -1,7 +1,6 @@
 import { useRef, useCallback } from "react";
 
 import {
-  FwInput,
   FwButton,
   FwFormControl,
   FwModal,
@@ -422,7 +421,7 @@ function Pattern2() {
             initialErrors={formInitialErrors}
             innerRef={formRef}
             renderer={(props: any) => {
-              const { controlProps, touched, errors } = props;
+              const { controlProps, touched, errors, values } = props;
               return (
                 <div>
                   {formSchema.fields.map((field: any) => {
@@ -496,7 +495,8 @@ function Pattern2() {
                     touched={touched["abc1"]}
                     error={errors["abc1"]}
                   >
-                   <CustomInput 
+                   <CustomInput
+                    value={values["abc1"]} 
                     onChange={handleCustomInputChange}
                     onBlur={handleCustomInputChange}
                    />
