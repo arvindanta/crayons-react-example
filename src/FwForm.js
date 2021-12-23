@@ -141,7 +141,7 @@ function FwForm({
       }
     }
     setIsValidating(false);
-  }, [values, validationSchema, validate]);
+  }, [values, validationSchema]);
 
   useEffect(() => {
     if (validateOnInput || validateOnBlur) {
