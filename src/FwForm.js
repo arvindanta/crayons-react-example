@@ -60,13 +60,13 @@ function FwForm({
     let isValid = false;
     // on clicking submit, mark all fields as touched
 
-    let keys = [...Object.keys(values), ...Object.keys(errors)];
-
-    keys.forEach((k) => setTouched((touched) => ({ ...touched, [k]: true })));
-
-    handleValidation();
+    await handleValidation();
 
     console.log({ errors: errors });
+
+    const keys = [...Object.keys(values), ...Object.keys(errors)];
+
+    keys.forEach((k) => setTouched((touched) => ({ ...touched, [k]: true })));
 
     isValid = !errors || Object.keys(errors).length === 0;
 
@@ -119,21 +119,31 @@ function FwForm({
 
   const handleValidation = useCallback(async () => {
     setIsValidating(true);
-    const pr = validateYupSchema(
-      prepareDataForValidation(values),
-      validationSchema
-    );
 
-    try {
-      const resultV = await pr;
-      console.log({ resultV });
-      setErrors({}); // reset errors if no errors from validation
-    } catch (err) {
-      console.log("validation error ", err);
-      setErrors(yupToFormErrors(err));
+    if (validationSchema && Object.keys(validationSchema).length) {
+      const pr = validateYupSchema(
+        prepareDataForValidation(values),
+        validationSchema
+      );
+
+      try {
+        const resultV = await pr;
+        console.log({ resultV });
+        setErrors({}); // reset errors if no errors from validation
+      } catch (err) {
+        setErrors(yupToFormErrors(err));
+      }
+    }
+    else if (validate && typeof validate === 'function') {
+      try {
+        const errors = await validate(values);
+        setErrors(errors ||  {})
+      } catch (err) {
+        console.error(`Error in calling validate function ${err.message}`);
+      }
     }
     setIsValidating(false);
-  }, [values, validationSchema]);
+  }, [values, validationSchema, validate]);
 
   useEffect(() => {
     if (validateOnInput || validateOnBlur) {
@@ -151,7 +161,6 @@ function FwForm({
       memoizedHandleInput[field] = (event, ref) => {
         const value = getElementValue(inputType, event, ref);
         setValues((val) => {
-          console.log("val ", val);
           return { ...val, [field]: value };
         });
       };

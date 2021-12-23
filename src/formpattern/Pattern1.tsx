@@ -272,7 +272,7 @@ const formSchema = {
   ],
 };
 const initialValues = {
-  is_indian_citizen: true,
+ // is_indian_citizen: true,
 };
 
 const staticValidationSchema = Yup.object().shape({
