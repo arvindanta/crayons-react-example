@@ -11,7 +11,6 @@ import {
   validateYupSchema,
   prepareDataForValidation,
   yupToFormErrors,
-  setNestedObjectValues,
 } from "./form/form-util";
 
 function FwForm({
@@ -133,11 +132,10 @@ function FwForm({
       } catch (err) {
         setErrors(yupToFormErrors(err));
       }
-    }
-    else if (validate && typeof validate === 'function') {
+    } else if (validate && typeof validate === "function") {
       try {
         const errors = await validate(values);
-        setErrors(errors ||  {})
+        setErrors(errors || {});
       } catch (err) {
         console.error(`Error in calling validate function ${err.message}`);
       }
@@ -239,7 +237,7 @@ function FwForm({
       ...inputProps(field, "radio"),
       type: "radio",
       id: `input-${field}--radio-${value}`,
-      value: value,
+      value: values[field],
       checked: values[field] === value,
     });
 
