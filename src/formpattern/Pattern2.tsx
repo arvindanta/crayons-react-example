@@ -389,6 +389,7 @@ const formInitialValues = { ...dynamicInitialValues, ...initialValues };
 
 function Pattern2() {
   const formRef = useRef<any>(null);
+  const customInputRef = useRef<any>({})
   const handleFormSubmit = (e: any) => {
     const values = formRef.current.doSubmit(e);
     console.log({ result: values });
@@ -405,6 +406,9 @@ function Pattern2() {
     // formRef.current.doReset(e);
   };
   const handleFormReset = (e: any) => {
+    const elem = document.querySelector("#sss");
+    (elem as HTMLInputElement).value = ''
+    customInputRef.current.handleReset();
     formRef.current.doReset(e);
   };
 
@@ -418,10 +422,18 @@ function Pattern2() {
           <FwForm
             initialValues={formInitialValues}
             validationSchema={formValidationSchema}
+            // validate={(val) =>{
+            //   console.log({val})
+            //   return {
+            //     first_name:'first_name is errored',
+            //     abc1:"abc1 is errored"
+            //   }
+            // }}
             initialErrors={formInitialErrors}
-            innerRef={formRef}
+            formRef={formRef}
             renderer={(props: any) => {
-              const { controlProps, touched, errors, values } = props;
+              const { controlProps, touched, errors } = props;
+              console.log({errors})
               return (
                 <div>
                   {formSchema.fields.map((field: any) => {
@@ -496,9 +508,9 @@ function Pattern2() {
                     error={errors["abc1"]}
                   >
                    <CustomInput
-                    value={values["abc1"]} 
                     onChange={handleCustomInputChange}
                     onBlur={handleCustomInputChange}
+                    cref={customInputRef}
                    />
                 </FwFormControl>
                 </div>

@@ -54,7 +54,7 @@ function Pattern3() {
             initialValues={formInitialValues}
             validationSchema={staticValidationSchema}
             initialErrors={formInitialErrors}
-            innerRef={formRef}
+            formRef={formRef}
             renderer={(props: any) => {
               const {
                 errors,
