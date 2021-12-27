@@ -138,11 +138,12 @@ function FwForm({
     let errorState = {};
     for (const field of Object.keys(initialValues)) {
       errorState = { ...errorState, [field]: null };
+      touchedState = { ...touchedState, [field]: false };
     }
     errorState = { ...errorState, ...initialErrors };
 
-    for (const field of Object.keys({ ...errorState })) {
-      touchedState = { ...touchedState, [field]: false };
+    for (const field of Object.keys({ ...initialErrors })) {
+      touchedState = { ...touchedState, [field]: true };
     }
 
     setFormState({
