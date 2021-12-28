@@ -411,28 +411,27 @@ function FwForm({
       value: values[field],
     });
 
-    const radioProps = (field, value) => ({
-      ...inputProps(field, "radio"),
-      type: "radio",
-      id: `input-${field}--radio-${value}`,
+    const radioProps = (field, inputType) => ({
+      ...inputProps(field, inputType),
+      type: inputType,
+      id: `input-${field}--radio-${values[field]}`,
       value: values[field],
-      checked: values[field] === value,
     });
 
-    const checkboxProps = (field) => ({
-      ...inputProps(field, "checkbox"),
-      type: "checkbox",
+    const checkboxProps = (field,inputType) => ({
+      ...inputProps(field, inputType),
+      type: inputType,
       checked: !!values[field],
     });
 
     const selectProps = (field, inputType) => ({
-      type: "select",
+      type: "text",
       name: field,
       id: `input-${field}`,
-      handleChange: handleInput(field, "select"),
-      handleBlur: handleBlur(field, "select"),
+      handleChange: handleInput(field,inputType),
+      handleBlur: handleBlur(field,inputType),
       value:
-        inputType === "MULTI_SELECT" // for multiselect pass Array
+        inputType === "multi_select" // for multiselect pass Array
           ? values[field]?.map((v) => v.value || v) || []
           : Array.isArray(values[field]) // single select but the value is an array, pass 0th index
           ? values[field]?.map((v) => v.value || v)[0] || ""
