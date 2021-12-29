@@ -6,6 +6,7 @@ import React, {
   useImperativeHandle,
   useReducer,
 } from "react";
+import { FwFormControl } from "@freshworks/crayons-1/react";
 import {
   getElementValue,
   validateYupSchema,
@@ -16,7 +17,8 @@ import {
 
 function FwForm({
   initialValues = {},
-  renderer,
+  formSchema = {},
+  renderer = (_props) => {},
   initialErrors = {},
   validationSchema = {},
   validateOnInput = true,
@@ -27,13 +29,6 @@ function FwForm({
   let dirty = false;
 
   let isValid = false;
-
-  // const [isValidating, setIsValidating] = useState(false);
-  // const [isSubmitting, setIsSubmitting] = useState(false);
-  // const [focused, setFocused] = useState(null);
-  // const [values, setValues] = useState(initialValues);
-  // const [touched, setTouched] = useState({});
-  // const [errors, setErrors] = useState({});
 
   const isMounted = useRef(false);
 
@@ -197,11 +192,7 @@ function FwForm({
       payload: false,
     });
 
-    if (!isValid) {
-      return;
-    }
-
-    return values;
+    return { values, isValid };
   };
 
   const handleReset = (event) => {
@@ -418,7 +409,7 @@ function FwForm({
       value: values[field],
     });
 
-    const checkboxProps = (field,inputType) => ({
+    const checkboxProps = (field, inputType) => ({
       ...inputProps(field, inputType),
       type: inputType,
       checked: !!values[field],
@@ -428,8 +419,8 @@ function FwForm({
       type: "text",
       name: field,
       id: `input-${field}`,
-      handleChange: handleInput(field,inputType),
-      handleBlur: handleBlur(field,inputType),
+      handleChange: handleInput(field, inputType),
+      handleBlur: handleBlur(field, inputType),
       value:
         inputType === "multi_select" // for multiselect pass Array
           ? values[field]?.map((v) => v.value || v) || []
@@ -471,7 +462,28 @@ function FwForm({
   };
   return (
     <form id="fw_form_wrapper" {...utils.formProps} noValidate>
-      {renderer(renderProps)}
+      {formSchema && Object.keys(formSchema).length > 0
+        ? formSchema?.fields
+            ?.sort((a, b) => a.position - b.position)
+            .map((field) => {
+              return (
+                <FwFormControl
+                  key={field.name}
+                  type={field.type}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  required={field.required}
+                  label={field.label}
+                  choices={field.choices}
+                  controlProps={utils}
+                  touched={touched[field.name]}
+                  error={errors[field.name]}
+                >
+                  {field.type === "CUSTOM" && field.component}
+                </FwFormControl>
+              );
+            })
+        : renderer(renderProps)}
     </form>
   );
 }

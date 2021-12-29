@@ -1,14 +1,12 @@
-import React from "react";
+import React, {forwardRef} from "react";
 
 import useWhyDidYouUpdate from "./why";
-function CustomInput(props) {
+function CustomInput(props, ref) {
   const [state, setState] = React.useState("");
   useWhyDidYouUpdate("Fields", props);
 
-  console.log(props);
-
-  if(props.cref)
-  props.cref.current.handleReset = () => {
+  if(ref)
+  ref.current.handleReset = () => {
     setState("");
   };
   return (
@@ -17,16 +15,16 @@ function CustomInput(props) {
         type="text"
         name="abc1"
         required
-        value={state}
         autoComplete="off"
         onChange={(e) => { setState(e.target.value);
-          props.onChange(e)}}
+          props.formRef.current.setFieldValue({ abc1: e.target.value});
+        }}
         onBlur={(e) => { setState(e.target.value);
-          
-          props.onBlur(e)}}
+          props.formRef.current.setFieldValue({ abc1: e.target.value})
+        }}
       ></input>
     </>
   );
 }
 
-export default React.memo(CustomInput);
+export default React.memo(forwardRef(CustomInput));

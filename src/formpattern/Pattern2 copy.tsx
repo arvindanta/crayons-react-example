@@ -11,10 +11,6 @@ import * as Yup from "yup";
 import FwForm from "../FwForm";
 import CustomInput from "../CustomInput";
 import "../App.css";
-
-function Pattern2() {
-  const formRef = useRef<any>(null);
-  const customInputRef = useRef<any>({});
 const formSchema = {
   title: "Test Form",
   name: "Test Form",
@@ -129,7 +125,7 @@ const formSchema = {
       visible: true,
       deleted: false,
       link: null,
-      placeholder: "Enter…",
+      Placeholder: "Enter…",
       hint: "Please enter your date of birth",
       field_options: {},
       filterable: true,
@@ -149,7 +145,7 @@ const formSchema = {
       visible: true,
       deleted: false,
       link: null,
-      placeholder: "Enter some text…",
+      Placeholder: "Enter some text…",
       hint: "Please enter the nearest landmark",
       field_options: {},
       filterable: false,
@@ -209,7 +205,7 @@ const formSchema = {
       visible: true,
       deleted: false,
       link: null,
-      placeholder: "Enter…",
+      Placeholder: "Enter…",
       hint: "Please enter your Pincode",
       field_options: {},
       filterable: true,
@@ -224,7 +220,7 @@ const formSchema = {
       label: "Gender",
       type: "RADIO",
       position: 5,
-      required: true,
+      required: false,
       editable: true,
       visible: true,
       deleted: false,
@@ -301,7 +297,7 @@ const formSchema = {
       visible: true,
       deleted: false,
       link: null,
-      placeholder: "Enter…",
+      Placeholder: "Enter…",
       hint: "Please enter the amount paid",
       field_options: {},
       filterable: true,
@@ -309,26 +305,6 @@ const formSchema = {
       parent_id: null,
       choices: [],
     },
-    {
-      id: "9119f86f-1b6a-49cb-b4b6-cf487be94595",
-      name: "abc1",
-      label: "Custom React Input",
-      type: "CUSTOM",
-      position: 3,
-      required: true,
-      editable: true,
-      visible: true,
-      deleted: false,
-      link: null,
-      placeholder: "Enter…",
-      hint: "Please enter the amount paid",
-      field_options: {},
-      filterable: true,
-      searchable: true,
-      parent_id: null,
-      choices: [],
-      component: <CustomInput formRef={formRef} ref={customInputRef}/>
-    }
   ],
 };
 const initialValues = {
@@ -341,8 +317,11 @@ const initialValues = {
 };
 
 const staticValidationSchema = Yup.object().shape({
- // abc: Yup.string().required("custom abc is req"),
- 
+  age: Yup.number().max(20, "max 20").required("Age is req"),
+  abc: Yup.string().required("custom abc is req"),
+  abc1: Yup.string().required("custom React abc1 is req"),
+  abc2: Yup.string().required("native abc2 is req"),
+  sss: Yup.string().required("native sss is req"),
 });
 
 function mergeSchema(...schemas: any) {
@@ -438,27 +417,28 @@ const dynamicInitialValues = formSchema.fields.reduce(
 const formInitialErrors = initialErrors;
 const formInitialValues = { ...dynamicInitialValues, ...initialValues };
 
- 
-  const handleFormSubmit = async (e: any) => {
-    const { values, isValid} = await formRef.current.doSubmit(e);
-    console.log({ values, isValid });
-   
-    if(isValid) {
-       // make ajax post end point with values
-      // fetch("/post",values);
+function Pattern21() {
+  const formRef = useRef<any>(null);
+  const customInputRef = useRef<any>({});
+  const handleFormSubmit = (e: any) => {
+    const values = formRef.current.doSubmit(e);
+    console.log({ result: values });
 
-      // if error from backend , set Errors - passing key value pair
-    
-      formRef.current.setFieldErrors({ first_name:"First Name must be unique <<Server Error>>"})
-    
-      // reset the form if required if success
-      // formRef.current.doReset(e);
-    }
-   
-  
+    // make ajax post end point with values
+    // fetch("/post",values);
+
+    // if error from backend , set Errors - passing key value pair
+    // formRef.current.setErrors({
+
+    // })
+
+    // reset the form if required if success
+    // formRef.current.doReset(e);
   };
   const handleFormReset = (e: any) => {
-    customInputRef.current?.handleReset();
+    const elem = document.querySelector("#sss");
+    (elem as HTMLInputElement).value = "";
+    customInputRef.current.handleReset();
     formRef.current.doReset(e);
   };
 
@@ -484,71 +464,71 @@ const formInitialValues = { ...dynamicInitialValues, ...initialValues };
             // }}
             initialErrors={formInitialErrors}
             formRef={formRef}
-            // renderer={(props: any) => {
-            //   const { controlProps, touched, errors } = props;
-            //   console.log({ errors });
-            //   return (
-            //     <div>
-            //       <br />
-            //       <br />
-            //       <h3> This is rendered apart from the json schema</h3>
-            //       <FwFormControl
-            //         type="TEXT"
-            //         name={"abc"}
-            //         placeholder={"Custom Layout"}
-            //         required
-            //         label={"Custom Layout"}
-            //         controlProps={controlProps}
-            //         touched={touched["abc"]}
-            //         error={errors["abc"]}
-            //       ></FwFormControl>
+            renderer={(props: any) => {
+              const { controlProps, touched, errors } = props;
+              console.log({ errors });
+              return (
+                <div>
+                  <br />
+                  <br />
+                  <h3> This is rendered apart from the json schema</h3>
+                  <FwFormControl
+                    type="TEXT"
+                    name={"abc"}
+                    placeholder={"Custom Layout"}
+                    required
+                    label={"Custom Layout"}
+                    controlProps={controlProps}
+                    touched={touched["abc"]}
+                    error={errors["abc"]}
+                  ></FwFormControl>
 
-            //       {/* <h3> Form Control Slot native control</h3>
+                  <h3> Form Control Slot native control</h3>
 
-            //       <FwFormControl
-            //         type="TEXT"
-            //         name={"sss"}
-            //         placeholder={"Custom layout"}
-            //         required={true}
-            //         label={"Custom Layout apart from json schema"}
-            //         controlProps={controlProps}
-            //         touched={touched["sss"]}
-            //         error={errors["sss"]}
-            //       >
-            //         <input
-            //           placeholder="sss"
-            //           id="sss"
-            //           name="sss"
-            //           required
-            //           onChange={(e) =>
-            //             formRef.current.setFieldValue({ sss: e.target.value })
-            //           }
-            //           onBlur={(e) =>
-            //             formRef.current.setFieldValue({ sss: e.target.value })
-            //           }
-            //         ></input>
-            //       </FwFormControl> */}
+                  <FwFormControl
+                    type="TEXT"
+                    name={"sss"}
+                    placeholder={"Custom layout"}
+                    required={true}
+                    label={"Custom Layout apart from json schema"}
+                    controlProps={controlProps}
+                    touched={touched["sss"]}
+                    error={errors["sss"]}
+                  >
+                    <input
+                      placeholder="sss"
+                      id="sss"
+                      name="sss"
+                      required
+                      onChange={(e) =>
+                        formRef.current.setFieldValue({ sss: e.target.value })
+                      }
+                      onBlur={(e) =>
+                        formRef.current.setFieldValue({ sss: e.target.value })
+                      }
+                    ></input>
+                  </FwFormControl>
 
-            //       <h3> Custom React input</h3>
-            //       <FwFormControl
-            //         type="TEXT"
-            //         name={"abc1"}
-            //         placeholder={"Custom React"}
-            //         required={true}
-            //         label={"Custom React Input"}
-            //         controlProps={controlProps}
-            //         touched={touched["abc1"]}
-            //         error={errors["abc1"]}
-            //       >
-            //         <CustomInput
-            //           onChange={handleCustomInputChange}
-            //           onBlur={handleCustomInputChange}
-            //           cref={customInputRef}
-            //         />
-            //       </FwFormControl>
-            //     </div>
-            //   );
-            // }}
+                  <h3> Custom React input</h3>
+                  <FwFormControl
+                    type="TEXT"
+                    name={"abc1"}
+                    placeholder={"Custom React"}
+                    required={true}
+                    label={"Custom React Input"}
+                    controlProps={controlProps}
+                    touched={touched["abc1"]}
+                    error={errors["abc1"]}
+                  >
+                    <CustomInput
+                      onChange={handleCustomInputChange}
+                      onBlur={handleCustomInputChange}
+                      cref={customInputRef}
+                    />
+                  </FwFormControl>
+                </div>
+              );
+            }}
           />
         </FwModalContent>
         <FwModalFooter>
@@ -562,4 +542,4 @@ const formInitialValues = { ...dynamicInitialValues, ...initialValues };
   );
 }
 
-export default Pattern2;
+export default Pattern21;
