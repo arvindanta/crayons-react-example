@@ -165,11 +165,11 @@ function FwForm({
 
     let isValid = false;
 
-    await handleValidation();
+    const validationErrors = await handleValidation();
 
-    console.log({ errors: errors });
+    console.log({ errors: validationErrors });
 
-    const keys = [...Object.keys(values), ...Object.keys(errors)];
+    const keys = [...Object.keys(values), ...Object.keys(validationErrors)];
 
     let touchedState = {};
 
@@ -181,7 +181,7 @@ function FwForm({
       payload: touchedState,
     });
 
-    isValid = !errors || Object.keys(errors).length === 0;
+    isValid = !validationErrors || Object.keys(validationErrors).length === 0;
 
     console.log({ values: values });
 
@@ -287,6 +287,8 @@ function FwForm({
         isValidating: false,
       },
     });
+
+    return validationErrors;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values]);
 
@@ -469,17 +471,17 @@ function FwForm({
               return (
                 <FwFormControl
                   key={field.name}
-                  type={field.type}
                   name={field.name}
-                  placeholder={field.placeholder}
-                  required={field.required}
+                  type={field.type}
                   label={field.label}
-                  choices={field.choices}
+                  required={field.required}
+                  hint={field.hint}
+                  fieldProps={field}
                   controlProps={utils}
                   touched={touched[field.name]}
                   error={errors[field.name]}
                 >
-                  {field.type === "CUSTOM" && field.component}
+                  {field.component}
                 </FwFormControl>
               );
             })

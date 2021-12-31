@@ -15,6 +15,7 @@ function CustomInput(props, ref) {
         type="text"
         name="abc1"
         required
+        value={state}
         autoComplete="off"
         onChange={(e) => { setState(e.target.value);
           props.formRef.current.setFieldValue({ abc1: e.target.value});

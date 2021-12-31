@@ -417,16 +417,14 @@ function Pattern3() {
     // email: 'ssss',
   };
 
- // const yupSchema = formSchema.fields.reduce(createYupSchema, {});
+  // const yupSchema = formSchema.fields.reduce(createYupSchema, {});
 
- // const dynamicValidationSchema = Yup.object().shape(yupSchema as any);
+  // const dynamicValidationSchema = Yup.object().shape(yupSchema as any);
 
-  const formValidationSchema = mergeSchema(
-    staticValidationSchema
-  );
+  const formValidationSchema = mergeSchema(staticValidationSchema);
 
   const formInitialErrors = initialErrors;
-  const formInitialValues = {  ...initialValues };
+  const formInitialValues = { ...initialValues };
 
   const handleFormSubmit = async (e: any) => {
     const { values, isValid } = await formRef.current.doSubmit(e);
@@ -448,6 +446,8 @@ function Pattern3() {
   };
   const handleFormReset = (e: any) => {
     customInputRef.current?.handleReset();
+    const customContrl = document?.querySelector("#sss") as HTMLInputElement;
+    customContrl.value = "";
     formRef.current.doReset(e);
   };
 
@@ -481,10 +481,10 @@ function Pattern3() {
                   <FwFormControl
                     type="TEXT"
                     name={"abc"}
-                    placeholder={"Custom Layout"}
                     required
-                    label={"Custom Layout"}
+                    label="Custom Layout22"
                     controlProps={controlProps}
+                    fieldProps={{ placeholder: "Custom placeholder" }}
                     touched={touched["abc"]}
                     error={errors["abc"]}
                   ></FwFormControl>
@@ -494,10 +494,11 @@ function Pattern3() {
                   <FwFormControl
                     type="TEXT"
                     name={"sss"}
-                    placeholder={"Custom layout"}
                     required={true}
                     label={"Custom Layout apart from json schema"}
-                    controlProps={controlProps}
+                    fieldProps={{
+                      placeholder: "Custom Layout apart from json schema",
+                    }}
                     touched={touched["sss"]}
                     error={errors["sss"]}
                   >
@@ -519,10 +520,9 @@ function Pattern3() {
                   <FwFormControl
                     type="TEXT"
                     name={"abc1"}
-                    placeholder={"Custom React"}
                     required={true}
                     label={"Custom React Input"}
-                    controlProps={controlProps}
+                    fieldProps={{ placeholder: "Custom React Input" }}
                     touched={touched["abc1"]}
                     error={errors["abc1"]}
                   >
@@ -530,7 +530,7 @@ function Pattern3() {
                       onChange={handleCustomInputChange}
                       onBlur={handleCustomInputChange}
                       formRef={formRef}
-                      cref={customInputRef}
+                      ref={customInputRef}
                     />
                   </FwFormControl>
                 </React.Fragment>

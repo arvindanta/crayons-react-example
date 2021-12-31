@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import {
-  FwFormWrapper,
+  FwForm,
   FwModal,
   FwButton,
   FwModalFooter,
@@ -338,6 +338,9 @@ function createYupSchema(schema: any, config: any) {
     case "RADIO":
       yupType = "string";
       break;
+    case "EMAIL":
+      yupType = "string";
+      break;
 
     case "DROPDOWN":
     case "MULTI_SELECT":
@@ -429,7 +432,7 @@ function Pattern1() {
     <div className="App">
       <FwModal slider isOpen>
         <FwModalContent>
-          <FwFormWrapper
+          <FwForm
             initialValues={formInitialValues}
             validationSchema={formValidationSchema}
             initialErrors={formInitialErrors}

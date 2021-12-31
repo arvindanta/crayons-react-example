@@ -491,7 +491,6 @@ function Pattern21() {
                     placeholder={"Custom layout"}
                     required={true}
                     label={"Custom Layout apart from json schema"}
-                    controlProps={controlProps}
                     touched={touched["sss"]}
                     error={errors["sss"]}
                   >
@@ -516,7 +515,6 @@ function Pattern21() {
                     placeholder={"Custom React"}
                     required={true}
                     label={"Custom React Input"}
-                    controlProps={controlProps}
                     touched={touched["abc1"]}
                     error={errors["abc1"]}
                   >
