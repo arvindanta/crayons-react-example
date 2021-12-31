@@ -5,9 +5,10 @@ import {
   FwModal,
   FwModalContent,
   FwModalFooter,
+  FwForm
 } from "@freshworks/crayons-1/react";
 import * as Yup from "yup";
-import FwForm from "../FwForm";
+// import FwForm from "../FwForm";
 import CustomInput from "../CustomInput";
 import "../App.css";
 
