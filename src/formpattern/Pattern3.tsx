@@ -333,8 +333,6 @@ function Pattern3() {
     ],
   };
   const initialValues = {
-    age: "",
-    is_indian_citizen: true,
     abc: "",
     abc1: "",
     abc2: "",
@@ -347,85 +345,10 @@ function Pattern3() {
     sss: Yup.string().required("native sss is req"),
   });
 
-  function mergeSchema(...schemas: any) {
-    const [first, ...rest] = schemas;
-
-    const merged = rest.reduce(
-      (mergedSchemas: string | any[], schema: any) =>
-        mergedSchemas.concat(schema),
-      first
-    );
-
-    return merged;
-  }
-
-  function createYupSchema(schema: any, config: any) {
-    const { type, required, name } = config;
-    let yupType;
-    switch (type) {
-      case "TEXT":
-      case "PARAGRAPH":
-      case "DATE":
-      case "TIME":
-      case "RADIO":
-        yupType = "string";
-        break;
-
-      case "DROPDOWN":
-      case "MULTI_SELECT":
-        yupType = "array";
-        break;
-      case "url":
-        yupType = "string";
-        break;
-      case "NUMBER":
-        yupType = "number";
-        break;
-      case "TEL":
-        yupType = "string";
-        break;
-      case "CHECKBOX":
-        yupType = "boolean";
-        break;
-      default:
-        yupType = "string";
-    }
-    if (!Yup[yupType as keyof typeof Yup]) {
-      return schema;
-    }
-    let yupMethod = yupType as keyof typeof Yup;
-    let validator = Yup[yupMethod] as any;
-    validator = validator();
-    if (required) validator = validator["required"](...[`${name} is required`]);
-    else validator = validator["notRequired"]();
-
-    if (type === "URL") validator = validator["url"](...[`Enter a valid url`]);
-
-    if (type === "EMAIL")
-      validator = validator["email"](...[`Enter a valid Email`]);
-
-    if (type === "CHECKBOX" && required)
-      validator = validator["oneOf"]([true], `${name} is required`);
-
-    if ((type === "DROPDOWN" || type === "MULTI_SELECT") && required)
-      validator = validator.min(1, `${name} is required`);
-
-    schema[name] = validator;
-    return schema;
-  }
 
   const initialErrors = {
     // email: 'ssss',
   };
-
-  // const yupSchema = formSchema.fields.reduce(createYupSchema, {});
-
-  // const dynamicValidationSchema = Yup.object().shape(yupSchema as any);
-
-  const formValidationSchema = mergeSchema(staticValidationSchema);
-
-  const formInitialErrors = initialErrors;
-  const formInitialValues = { ...initialValues };
 
   const handleFormSubmit = async (e: any) => {
     const { values, isValid } = await formRef.current.doSubmit(e);
@@ -462,8 +385,8 @@ function Pattern3() {
       <FwModal slider isOpen>
         <FwModalContent>
           <FwForm
-            initialValues={formInitialValues}
-            validationSchema={formValidationSchema}
+            initialValues={initialValues}
+            validationSchema={staticValidationSchema}
             // formSchema={formSchema}
             // validate={(val) =>{
             //   console.log({val})
@@ -472,9 +395,9 @@ function Pattern3() {
             //     abc1:"abc1 is errored"
             //   }
             // }}
-            initialErrors={formInitialErrors}
+            initialErrors={initialErrors}
             formRef={formRef}
-            renderer={(props: any) => {
+            renderer={(props) => {
               const { controlProps, touched, errors } = props;
               return (
                 <React.Fragment>

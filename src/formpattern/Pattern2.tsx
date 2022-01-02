@@ -1,4 +1,4 @@
-import { useRef, useCallback } from "react";
+import { useRef } from "react";
 
 import {
   FwButton,
@@ -8,7 +8,6 @@ import {
   FwForm
 } from "@freshworks/crayons-1/react";
 import * as Yup from "yup";
-// import FwForm from "../FwForm";
 import CustomInput from "../CustomInput";
 import "../App.css";
 
@@ -346,6 +345,7 @@ function Pattern2() {
     // email: 'ssss',
   };
   const handleFormSubmit = async (e: any) => {
+
     const { values, isValid } = await formRef.current.doSubmit(e);
     console.log({ values, isValid });
 
@@ -376,16 +376,17 @@ function Pattern2() {
             initialValues={initialValues}
             validationSchema={validationSchema}
             formSchema={formSchema}
-            // validate={(values) =>{
-            //   console.log({val})
+            // validate={async (values) =>{
+            //   console.log({values})
             //   return {
             //     first_name:'first_name is errored',
             //     abc1:"abc1 is errored"
-            //     // json api std
             //   }
             // }}
             initialErrors={initialErrors}
             formRef={formRef}
+            
+            
           />
         </FwModalContent>
         <FwModalFooter>
