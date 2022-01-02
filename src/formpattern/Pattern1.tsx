@@ -437,7 +437,7 @@ function Pattern1() {
             validationSchema={formValidationSchema}
             initialErrors={formInitialErrors}
             formSchema={formSchema}
-            ref={formRef}
+            formRef={formRef}
           />
         </FwModalContent>
         <FwModalFooter>
