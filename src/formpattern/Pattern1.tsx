@@ -310,7 +310,7 @@ const initialValues = {
 };
 
 const staticValidationSchema = Yup.object().shape({
-  first_name: Yup.string().min(5,"min 5 char")
+  first_name: Yup.string().required().min(5,"min 5 char")
 });
 
 
@@ -331,6 +331,9 @@ function Pattern1() {
     // formRef.current.setErrors({
 
     // })
+    formRef.current.setFieldErrors({
+      first_name: "First Name must be unique <<Server Error>>",
+    });
 
     // reset the form if required if success
     // formRef.current.doReset(e);
