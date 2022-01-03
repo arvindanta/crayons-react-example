@@ -5,7 +5,7 @@ import {
   FwModal,
   FwModalContent,
   FwModalFooter,
-  FwForm
+  FwForm,
 } from "@freshworks/crayons-1/react";
 import * as Yup from "yup";
 import CustomInput from "../CustomInput";
@@ -14,6 +14,7 @@ import "../App.css";
 function Pattern2() {
   const formRef = useRef<any>(null);
   const customInputRef = useRef<any>({});
+  const inputRef = useRef<any>({});
   const formSchema = {
     title: "Test Form",
     name: "Test Form",
@@ -215,7 +216,6 @@ function Pattern2() {
         searchable: true, // For the field to be used as filter condition in search API, this needs to be set
         parent_id: null,
         choices: [],
-        minLength:{}
       },
 
       {
@@ -321,31 +321,57 @@ function Pattern2() {
         deleted: false,
         link: null,
         placeholder: "Enter…",
-        hint: "Please enter the amount paid",
+        hint: "Custom React Input",
         field_options: {},
         filterable: true,
         searchable: true,
         parent_id: null,
         choices: [],
-        component: <CustomInput formRef={formRef} ref={customInputRef} />,
+        component: <CustomInput formRef={formRef} cref={customInputRef} />,
+      },
+      {
+        id: "83119f86f-1b6a-49cb-b4b6-cf487be94595",
+        name: "pqq",
+        label: "Native Input",
+        type: "Text",
+        position: 4,
+        required: true,
+        editable: true,
+        visible: true,
+        deleted: false,
+        link: null,
+        placeholder: "Enter…",
+        hint: "Native Input",
+        field_options: {},
+        filterable: true,
+        searchable: true,
+        parent_id: null,
+        choices: [],
+        component: (
+          <input
+            type="text"
+            onChange={(e) => {
+              formRef.current.setFieldValue("pqq", e.target.value, true);
+            }}
+            onBlur={async (e) => {
+              formRef.current.setFieldValue("pqq", e.target.value, true);
+            }}
+            ref={inputRef}
+          />
+        ),
       },
     ],
   };
   const initialValues = {
-    age: "",
     is_indian_citizen: true,
-    abc1: "",
   };
 
   const validationSchema = Yup.object().shape({
-     abc1: Yup.string().required("custom abc is req"),
+    abc1: Yup.string().required("custom abc is req"),
+    pqq: Yup.string().required("native pqq is req"),
   });
 
-  const initialErrors = {
-    // email: 'ssss',
-  };
   const handleFormSubmit = async (e: any) => {
-
     const { values, isValid } = await formRef.current.doSubmit(e);
     console.log({ values, isValid });
 
@@ -365,6 +391,7 @@ function Pattern2() {
   };
   const handleFormReset = (e: any) => {
     customInputRef.current?.handleReset();
+    inputRef.current.value = "";
     formRef.current.doReset(e);
   };
 
@@ -375,18 +402,16 @@ function Pattern2() {
           <FwForm
             initialValues={initialValues}
             validationSchema={validationSchema}
+            validate={async (values) => {
+              return {
+                last_name: "last name is errored",
+                pqq: "ss",
+              };
+            }}
             formSchema={formSchema}
-            // validate={async (values) =>{
-            //   console.log({values})
-            //   return {
-            //     first_name:'first_name is errored',
-            //     abc1:"abc1 is errored"
-            //   }
-            // }}
-            initialErrors={initialErrors}
             formRef={formRef}
-            
-            
+            validateOnInput={true}
+            validateOnBlur={true}
           />
         </FwModalContent>
         <FwModalFooter>
