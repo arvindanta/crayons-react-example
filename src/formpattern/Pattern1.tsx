@@ -306,7 +306,8 @@ const formSchema = {
   ],
 };
 const initialValues = {
-   is_indian_citizen: true,
+  // is_indian_citizen: true,
+  email:'sss'
 };
 
 const staticValidationSchema = Yup.object().shape({
@@ -314,14 +315,10 @@ const staticValidationSchema = Yup.object().shape({
 });
 
 
-const initialErrors = {
-  // email: 'ssss',
-};
-
 function Pattern1() {
   const formRef = useRef<any>(null);
-  const handleFormSubmit = (e: any) => {
-    const values = formRef.current.doSubmit(e);
+  const handleFormSubmit = async (e: any) => {
+    const { values, isValid} = await formRef.current.doSubmit(e);
     console.log({ result: values });
 
     // make ajax post end point with values
@@ -331,10 +328,10 @@ function Pattern1() {
     // formRef.current.setErrors({
 
     // })
+    if(isValid)
     formRef.current.setFieldErrors({
       first_name: "First Name must be unique <<Server Error>>",
     });
-
     // reset the form if required if success
     // formRef.current.doReset(e);
   };
@@ -348,9 +345,15 @@ function Pattern1() {
           <FwForm
             initialValues={initialValues}
             validationSchema={staticValidationSchema}
-            initialErrors={initialErrors}
+            validate={(async (values) =>{
+              return {
+                last_name:"last name is errored"
+              }
+            })}
             formSchema={formSchema}
             formRef={formRef}
+            validateOnInput={false}
+            validateOnBlur={true}
           />
         </FwModalContent>
         <FwModalFooter>
