@@ -84,7 +84,8 @@ function Pattern3() {
                     required
                     label="Custom Layout22"
                     controlProps={controlProps}
-                    fieldProps={{ placeholder: "Custom placeholder" }}
+                    placeholder= "Custom placeholder"
+                    fieldProps={{ maxLength: 2}}
                     touched={touched["abc"]}
                     error={errors["abc"]}
                   ></FwFormControl>
@@ -98,6 +99,7 @@ function Pattern3() {
                     label={"Custom Layout apart from json schema"}
                     touched={touched["sss"]}
                     error={errors["sss"]}
+                    
                   >
                     <input
                       placeholder="sss"
@@ -119,7 +121,6 @@ function Pattern3() {
                     name={"abc1"}
                     required={true}
                     label={"Custom React Input"}
-                    fieldProps={{ placeholder: "Custom React Input" }}
                     touched={touched["abc1"]}
                     error={errors["abc1"]}
                   >

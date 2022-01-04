@@ -405,7 +405,6 @@ function Pattern2() {
             validate={async (values) => {
               return {
                 last_name: "last name is errored",
-                pqq: "ss",
               };
             }}
             formSchema={formSchema}
