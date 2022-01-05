@@ -123,7 +123,7 @@ const formSchema = {
       visible: true,
       deleted: false,
       link: null,
-      Placeholder: "Enter…",
+      placeholder: "Enter…",
       hint: "Please enter your date of birth",
       field_options: {},
       filterable: true,
@@ -143,7 +143,7 @@ const formSchema = {
       visible: true,
       deleted: false,
       link: null,
-      Placeholder: "Enter some text…",
+      placeholder: "Enter some text…",
       hint: "Please enter the nearest landmark",
       field_options: {},
       filterable: false,
@@ -203,7 +203,7 @@ const formSchema = {
       visible: true,
       deleted: false,
       link: null,
-      Placeholder: "Enter…",
+      placeholder: "Enter…",
       hint: "Please enter your Pincode",
       field_options: {},
       filterable: true,
@@ -295,7 +295,7 @@ const formSchema = {
       visible: true,
       deleted: false,
       link: null,
-      Placeholder: "Enter…",
+      placeholder: "Enter…",
       hint: "Please enter the amount paid",
       field_options: {},
       filterable: true,
@@ -307,19 +307,20 @@ const formSchema = {
 };
 const initialValues = {
   is_indian_citizen: true,
-  email:'sss'
+  email: "sss",
 };
 
 const staticValidationSchema = Yup.object().shape({
-  first_name: Yup.string().required().min(5,"min 5 char")
+  first_name: Yup.string()
+    .required("First name is required")
+    .min(5, "min 5 char"),
 });
-
 
 function Pattern1() {
   const formRef = useRef<any>(null);
   const handleFormSubmit = async (e: any) => {
-    const { values, isValid} = await formRef.current.doSubmit(e);
-    console.log({ result: values });
+    const { values, isValid, errors } = await formRef.current.doSubmit(e);
+    console.log({ result: values, errors });
 
     // make ajax post end point with values
     // fetch("/post",values);
@@ -328,12 +329,13 @@ function Pattern1() {
     // formRef.current.setErrors({
 
     // })
-    if(isValid)
-    formRef.current.setFieldErrors({
-      first_name: "First Name must be unique <<Server Error>>",
-    });
-    // reset the form if required if success
-    // formRef.current.doReset(e);
+    if (isValid) {
+      formRef.current.setFieldErrors({
+        first_name: "First Name must be unique <<Server Error>>",
+      });
+      // reset the form if required if success
+      // formRef.current.doReset(e);
+    }
   };
   const handleFormReset = (e: any) => {
     formRef.current.doReset(e);
@@ -343,15 +345,15 @@ function Pattern1() {
       <FwModal slider isOpen>
         <FwModalContent>
           <FwForm
+            ref={formRef}
             initialValues={initialValues}
             validationSchema={staticValidationSchema}
-            validate={(async (values) =>{
+            validate={async () => {
               return {
-                //last_name:"last name is errored"
-              }
-            })}
+                last_name: "last name is errored", //json api std.
+              };
+            }}
             formSchema={formSchema}
-            formRef={formRef}
             validateOnInput={false}
             validateOnBlur={true}
           />

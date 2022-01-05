@@ -327,7 +327,9 @@ function Pattern2() {
         searchable: true,
         parent_id: null,
         choices: [],
-        component: <CustomInput formRef={formRef} cref={customInputRef} />,
+        component: (
+          <CustomInput name="abc1" formRef={formRef} cref={customInputRef} />
+        ),
       },
       {
         id: "83119f86f-1b6a-49cb-b4b6-cf487be94595",
@@ -402,13 +404,13 @@ function Pattern2() {
           <FwForm
             initialValues={initialValues}
             validationSchema={validationSchema}
-            validate={async (values) => {
+            validate={async (values: any) => {
               return {
                 last_name: "last name is errored",
               };
             }}
             formSchema={formSchema}
-            formRef={formRef}
+            ref={formRef}
             validateOnInput={true}
             validateOnBlur={true}
           />
