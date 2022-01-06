@@ -313,7 +313,7 @@ const initialValues = {
 const staticValidationSchema = Yup.object().shape({
   first_name: Yup.string()
     .required("First name is required")
-    .min(5, "min 5 char"),
+    .min(5, "min 5 char").nullable(),
 });
 
 function Pattern1() {
@@ -348,13 +348,13 @@ function Pattern1() {
             ref={formRef}
             initialValues={initialValues}
             validationSchema={staticValidationSchema}
-            validate={async () => {
+            validate={async (values:any) => {
               return {
-                last_name: "last name is errored", //json api std.
+             //   last_name: "last name is errored", //json api std.
               };
             }}
             formSchema={formSchema}
-            validateOnInput={false}
+            validateOnInput={true}
             validateOnBlur={true}
           />
         </FwModalContent>

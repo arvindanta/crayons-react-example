@@ -99,10 +99,10 @@ function Pattern3() {
                   name="sss"
                   required
                   onChange={(e) =>
-                    formRef.current.setFieldValue("sss", e.target.value)
+                    formRef.current.setFieldValue("sss", e.target.value, true)
                   }
                   onBlur={(e) =>
-                    formRef.current.setFieldValue("sss", e.target.value)
+                    formRef.current.setFieldValue("sss", e.target.value, true)
                   }
                 ></input>
               </FwFormControl>
