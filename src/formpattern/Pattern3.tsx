@@ -68,7 +68,7 @@ function Pattern3() {
             validationSchema={validationSchema}
             validate={async (val: any) => {
               return {
-                abc1: "abc1 is errored",
+               // abc1: "abc1 is errored",
               };
             }}
             ref={formRef}
@@ -114,7 +114,7 @@ function Pattern3() {
                 required={true}
                 label={"Custom React Input"}
               >
-                <CustomInput formRef={formRef} cref={customInputRef} />
+                <CustomInput name="abc1" formRef={formRef} cref={customInputRef} />
               </FwFormControl>
             </React.Fragment>
           </FwForm>

@@ -18,15 +18,15 @@ function CustomInput(props, ref) {
     <>
       <input
         type="text"
-        name="abc1"
+        name={props.name}
         required
         value={state}
         autoComplete="off"
         onChange={(e) => { setState(e.target.value);
-          props.formRef.current.setFieldValue("abc1",e.target.value, false);
+          props.formRef.current.setFieldValue(props.name,e.target.value, false);
         }}
         onBlur={(e) => { setState(e.target.value);
-          props.formRef.current.setFieldValue("abc1", e.target.value, true)
+          props.formRef.current.setFieldValue(props.name, e.target.value, true)
         }}
       ></input>
     </>
