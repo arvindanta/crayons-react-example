@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@freshworks/crayons": "^3.0.0-beta.9",
+    "@freshworks/crayons": "^3.0.0-beta.10",
     "@freshworks/crayons-1": "file:../crayons/packages/crayons-core",
     "@freshworks/crayons-icons-1": "file:../crayons/packages/crayons-icon",
     "@testing-library/jest-dom": "^5.15.1",

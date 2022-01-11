@@ -114,7 +114,10 @@ function Pattern3() {
                 required={true}
                 label={"Custom React Input"}
               >
-                <CustomInput name="abc1" formRef={formRef} cref={customInputRef} />
+                <div>
+                  <h1>hello world</h1>
+                  <CustomInput name="abc1" formRef={formRef} cref={customInputRef} />
+                </div>
               </FwFormControl>
             </React.Fragment>
           </FwForm>

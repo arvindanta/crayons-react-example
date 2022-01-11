@@ -16,10 +16,12 @@ function CustomInput(props, ref) {
   };
   return (
     <>
+    <p>input custom</p>
       <input
         type="text"
         name={props.name}
         required
+        
         value={state}
         autoComplete="off"
         onChange={(e) => { setState(e.target.value);
