@@ -5,11 +5,13 @@ import {
   FwButton,
   FwModalFooter,
   FwModalContent,
+  FwPagination,
+  FwModalTitle,
 } from "@freshworks/crayons-1/react";
 import * as Yup from "yup";
 
 import "../App.css";
-const formSchema = {
+let formSchema: any = {
   title: "Test Form",
   name: "Test Form",
   fields: [
@@ -130,6 +132,7 @@ const formSchema = {
       searchable: true,
       parent_id: null,
       choices: [],
+      displayFormat: "dd MMM yyyy",
     },
 
     {
@@ -303,21 +306,93 @@ const formSchema = {
       parent_id: null,
       choices: [],
     },
+
+    {
+      id: "42aecb8f-25cf-47ce-89c6-5410fe3d4315",
+      name: "custom_relationship",
+      label: "custom relationship",
+      type: "RELATIONSHIP",
+      position: -1,
+      required: true,
+      editable: true,
+      visible: true,
+      deleted: false,
+      link: null,
+      placeholder: "Enter…",
+      hint: "",
+      field_options: {},
+      filterable: true,
+      searchable: true,
+      parent_id: null,
+      search: async (searchText: any) => {
+        console.log({ searchText });
+        const choices = [
+          {
+            id: 10,
+            value: "open",
+            position: 1,
+            dependent_ids: {},
+          },
+          {
+            id: 20,
+            value: "pending",
+            position: 2,
+            dependent_ids: {},
+          },
+          {
+            id: 30,
+            value: "closed",
+            position: 3,
+            dependent_ids: {},
+          },
+        ];
+
+        return choices.map((x: any) => {
+          return {
+            text: x.value,
+            subText: x.value,
+            value: x.id,
+          };
+        });
+      },
+    },
   ],
 };
 const initialValues = {
   is_indian_citizen: true,
   email: "sss",
+  order_status: 3,
+  languages_known: [3, 1],
+  first_name: "est igng dsn",
+  custom_relationship: [
+    {
+      value: 30,
+      text: "3000",
+    },
+  ],
 };
 
 const staticValidationSchema = Yup.object().shape({
-  first_name: Yup.string()
-    .required("First name is required")
-    .min(5, "min 5 char").nullable(),
+  // first_name: Yup.string()
+  //   .required("First name is required")
+  //   .min(5, "min 5 char")
+  //   .nullable(),
+  // pincode: Yup.number().integer("must be integer").nullable().required("req"),
+  amount_paid: Yup.number()
+    .integer("must be integer")
+    .nullable()
+    .required("req"),
 });
 
-function Pattern1() {
+function Pattern1(props: any) {
+  // const [show,setShow] = useState(true)
+
+  // setTimeout(() =>{
+  //   setShow(false)
+  // },5000)
+
   const formRef = useRef<any>(null);
+  //const formRef1 = useRef<any>(null);
   const handleFormSubmit = async (e: any) => {
     const { values, isValid, errors } = await formRef.current.doSubmit(e);
     console.log({ result: values, errors });
@@ -340,22 +415,46 @@ function Pattern1() {
   const handleFormReset = (e: any) => {
     formRef.current.doReset(e);
   };
+
+  const fields = formSchema?.fields?.map((field: any) => {
+    if (field.type === "DROPDOWN" || field.type === "MULTI_SELECT") {
+      return {
+        ...field,
+        choices: field.choices?.map((f: any) => {
+          return {
+            ...f,
+            text: f.value,
+            value: f.id,
+          };
+        }),
+      };
+    } else return field;
+  });
+
+  const formSchema1 = {
+    ...formSchema,
+    fields: fields,
+  };
+
   return (
     <div className="App">
+      <FwPagination total={500}></FwPagination>
+
       <FwModal slider isOpen>
+        <FwModalTitle>
+          Title - {props.title} <br />
+          {JSON.stringify(props)}
+        </FwModalTitle>
         <FwModalContent>
+          <input name="xzyz" placeholder="outside"></input>
+
           <FwForm
             ref={formRef}
-            initialValues={initialValues}
-            validationSchema={staticValidationSchema}
-            validate={async (values:any) => {
-              return {
-             //   last_name: "last name is errored", //json api std.
-              };
-            }}
-            formSchema={formSchema}
+            formSchema={formSchema1}
             validateOnInput={true}
             validateOnBlur={true}
+            initialValues={initialValues}
+            validationSchema={staticValidationSchema}
           />
         </FwModalContent>
         <FwModalFooter>
