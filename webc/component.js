@@ -24,19 +24,29 @@ class MyComponent extends HTMLElement {
   }
   handler() {
     console.log("jdjdhjso ");
-    if (!inIframe) {
-      window.__mfe_publish?.("root", {
-        type: "from_child",
-        name: "from child message",
-      });
-      setTimeout(() => {
-        window.__mfe_broadcast?.("web12", {
+    if (!inIframe()) {
+      window.__mfe_publish?.({
+        action: {
           type: "from_child",
-          name: "from child message",
-        });
+          sender: "web12",
+          receiver:"root",
+        }, payload: "from child web12"});
+      setTimeout(() => {
+        window.__mfe_publish?.({
+          action: {
+          type: "from_child",
+          sender: 'web12', 
+        }, payload: "from child broadcast web12", broadcast: true});
       }, 3000);
     } else {
-      window.top?.postMessage("child sending message", "*");
+      window.top?.postMessage({
+        action: {
+          type: 'MESSAGE',
+          sender: "web12",
+          receiver: "react121",
+        },
+        payload: "child sending message from iframe web12",
+      }, "*");
     }
   }
   connectedCallback() {
