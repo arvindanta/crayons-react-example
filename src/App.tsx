@@ -3,7 +3,8 @@
 // import Pattern3 from "./formpattern/Pattern3";
 // import Slot from "./Slot"
 import React from "react";
-const APP_ID = "react121";
+import Pattern1 from "./formpattern/Pattern1";
+const APP_ID = "reactForm";
 function inIframe() {
   try {
     return window.self !== window.top;
@@ -77,10 +78,8 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h1>hello : {JSON.stringify(this.state)}</h1>
-        <button onClick={this.triggerClick}> Trigger pubsub publish</button>
-
-        <button onClick={this.broadCastMessage}> Trigger Broadcast</button>
+        <h3>Rendering React app as a MFE here</h3>
+        <Pattern1 {...this.props} />
         {/* <Pattern2/> */}
         {/* <Pattern3/> */}
         {/* <Slot/> */}

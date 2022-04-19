@@ -439,31 +439,20 @@ function Pattern1(props: any) {
   return (
     <div className="App">
       <FwPagination total={500}></FwPagination>
-
-      <FwModal slider isOpen>
-        <FwModalTitle>
-          Title - {props.title} <br />
-          {JSON.stringify(props)}
-        </FwModalTitle>
-        <FwModalContent>
-          <input name="xzyz" placeholder="outside"></input>
-
-          <FwForm
-            ref={formRef}
-            formSchema={formSchema1}
-            validateOnInput={true}
-            validateOnBlur={true}
-            initialValues={initialValues}
-            validationSchema={staticValidationSchema}
-          />
-        </FwModalContent>
-        <FwModalFooter>
-          <FwButton color="secondary" onClick={handleFormReset}>
-            Custom Form Reset in modal
-          </FwButton>
-          <FwButton onClick={handleFormSubmit}>Custom Submit</FwButton>
-        </FwModalFooter>
-      </FwModal>
+      Title - {props.title} <br />
+      {JSON.stringify(props)}
+      <FwForm
+        ref={formRef}
+        formSchema={formSchema1}
+        validateOnInput={true}
+        validateOnBlur={true}
+        initialValues={initialValues}
+        validationSchema={staticValidationSchema}
+      />
+      <FwButton color="secondary" onClick={handleFormReset}>
+        Custom Form Reset in modal
+      </FwButton>
+      <FwButton onClick={handleFormSubmit}>Custom Submit</FwButton>
     </div>
   );
 }

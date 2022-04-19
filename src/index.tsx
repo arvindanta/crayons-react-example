@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-const APP_ID = "react121";
+const APP_ID = "reactForm";
 
 declare global {
   interface Window {
@@ -29,7 +29,9 @@ window[APP_ID as any].mount = async (container: any, appProps: any) => {
 console.log("window appid ", window[APP_ID as any]);
 
 window.onload = () => {
-  window[APP_ID as any].mount(document.getElementById("root"), {});
+  window[APP_ID as any].mount(document.getElementById("root"), {
+    title: "test",
+  });
 };
 
 // ReactDOM.render(
