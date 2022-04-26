@@ -1,16 +1,30 @@
 import { useRef } from "react";
+
+// import {
+//   FwForm,
+//   FwModal,
+//   FwModalFooter,
+//   FwModalContent,
+//   FwPagination,
+//   FwModalTitle,
+//   FwButton,
+// } from "@freshworks/crayons-1/react";
+
 import {
   FwForm,
   FwModal,
-  FwButton,
   FwModalFooter,
   FwModalContent,
   FwPagination,
   FwModalTitle,
-} from "@freshworks/crayons-1/react";
-import * as Yup from "yup";
+  FwButton,
+  FwButton as Fbtn,
+} from "@freshworks/crayons/react";
 
+import * as Yup from "yup";
+import { Link } from "react-router-dom";
 import "../App.css";
+
 let formSchema: any = {
   title: "Test Form",
   name: "Test Form",
@@ -439,6 +453,12 @@ function Pattern1(props: any) {
   return (
     <div className="App">
       <FwPagination total={500}></FwPagination>
+      <br />
+      <Fbtn>btn </Fbtn>
+      <br />
+      <br />
+      <FwButton>btn asdasd</FwButton>
+      <br />
       Title - {props.title} <br />
       {JSON.stringify(props)}
       <FwForm
@@ -453,6 +473,7 @@ function Pattern1(props: any) {
         Custom Form Reset in modal
       </FwButton>
       <FwButton onClick={handleFormSubmit}>Custom Submit</FwButton>
+      <Link to="/about">About</Link>
     </div>
   );
 }

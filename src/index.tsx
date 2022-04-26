@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
 import "./index.css";
 import App from "./App";
 
@@ -14,7 +15,12 @@ const rootConfig = {
 
     console.log(`MOUNT: ${APP_ID}`, container, appProps);
 
-    ReactDOM.render(<App {...appProps} />, container);
+    ReactDOM.render(
+      <BrowserRouter>
+        <App {...appProps} />
+      </BrowserRouter>,
+      container
+    );
   },
   unmount: async (container: any) => {
     console.log(`UNMOUNT: ${APP_ID}`);

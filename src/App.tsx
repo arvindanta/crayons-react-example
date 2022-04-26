@@ -7,7 +7,14 @@
 // import Slot from "./Slot"
 
 import React from "react";
+import { defineCustomElements } from "@freshworks/crayons-1/loader";
+
+import { Routes, Route } from "react-router-dom";
+import About from "./About";
 import Pattern1 from "./formpattern/Pattern1";
+defineCustomElements(window, {
+  transformTagName: (tagName: any) => `${tagName}-v1`,
+} as any);
 const APP_ID = "reactForm";
 declare namespace JSX {
   interface IntrinsicElements {
@@ -32,7 +39,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    (window as any).MFEController.__mfe_subscribe?.(APP_ID, (msg: any) => {
+    (window as any)?.MFEController?.__mfe_subscribe?.(APP_ID, (msg: any) => {
       console.log(`msg from outside for ${APP_ID} is ${msg}`);
     });
   }
@@ -40,26 +47,30 @@ class App extends React.Component {
   triggerClick() {
     console.log("click");
 
-    (window as any).MFEController?.__mfe_publish?.({
+    (window as any)?.MFEController?.__mfe_publish?.({
       action: {
         type: "from_child reactForm",
         sender: "reactForm",
         receiver: "web12",
       },
       payload: "from child reactForm",
+      senderOrigin: window.origin,
+      targetOrigin: "http://localhost:3333",
     });
   }
 
   broadCastMessage() {
     console.log("broadcast");
 
-    (window as any).MFEController?.__mfe_publish?.({
+    (window as any)?.(MFEController)?.__mfe_publish?.({
       action: {
         type: "from_child reactForm",
         sender: "reactForm",
       },
       payload: "from child broadcast reactForm",
       broadcast: true,
+      senderOrigin: window.origin,
+      targetOrigin: "http://localhost:3333",
     });
   }
 
@@ -78,7 +89,11 @@ class App extends React.Component {
         ></mfe-application> */}
 
         <br />
-        <Pattern1 {...this.props} />
+        <Routes>
+          <Route path="/" element={<Pattern1 {...this.props} />} />
+          <Route path="about" element={<About />} />
+        </Routes>
+
         {/* <Pattern2/> */}
         {/* <Pattern3/> */}
         {/* <Slot/> */}
