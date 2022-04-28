@@ -87,7 +87,7 @@ class App extends React.Component {
         <br />
         <Routes>
           <Route path="/" element={<Pattern1 {...this.props} />} />
-          <Route path="about" element={<About />} />
+          <Route path="/about" element={<About />} />
         </Routes>
 
         {/* <Pattern2/> */}

@@ -1,0 +1,21 @@
+{
+  "name": "webc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "component.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@freshworksinc/platform-application": "file:../platform-apps/packages/platform-application"
+  },
+  "devDependencies": {
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
+  }
+}
