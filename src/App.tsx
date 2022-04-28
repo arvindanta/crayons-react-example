@@ -7,14 +7,10 @@
 // import Slot from "./Slot"
 
 import React from "react";
-import { defineCustomElements } from "@freshworks/crayons-1/loader";
-
+import { MFEController } from "@freshworksinc/platform-application";
 import { Routes, Route } from "react-router-dom";
 import About from "./About";
 import Pattern1 from "./formpattern/Pattern1";
-defineCustomElements(window, {
-  transformTagName: (tagName: any) => `${tagName}-v1`,
-} as any);
 const APP_ID = "reactForm";
 declare namespace JSX {
   interface IntrinsicElements {
@@ -39,7 +35,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    (window as any)?.MFEController?.__mfe_subscribe?.(APP_ID, (msg: any) => {
+    MFEController?.__mfe_subscribe?.(APP_ID, (msg: any) => {
       console.log(`msg from outside for ${APP_ID} is ${msg}`);
     });
   }
@@ -47,7 +43,7 @@ class App extends React.Component {
   triggerClick() {
     console.log("click");
 
-    (window as any)?.MFEController?.__mfe_publish?.({
+    MFEController?.__mfe_publish?.({
       action: {
         type: "from_child reactForm",
         sender: "reactForm",
@@ -62,7 +58,7 @@ class App extends React.Component {
   broadCastMessage() {
     console.log("broadcast");
 
-    (window as any)?.(MFEController)?.__mfe_publish?.({
+    MFEController?.__mfe_publish?.({
       action: {
         type: "from_child reactForm",
         sender: "reactForm",

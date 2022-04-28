@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
+import { MFEController } from "@freshworksinc/platform-application";
 import "./index.css";
 import App from "./App";
 
@@ -28,7 +29,7 @@ const rootConfig = {
   },
 };
 
-(window as any).MFEController?.registerApplication?.(APP_ID, rootConfig);
+MFEController?.setRootConfig?.(APP_ID, rootConfig);
 
 window.onload = () => {
   rootConfig.mount(document.getElementById("root"), {
