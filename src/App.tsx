@@ -7,10 +7,12 @@
 // import Slot from "./Slot"
 
 import React from "react";
-import { MFEController } from "@freshworksinc/platform-application";
+import { MFEController } from "./controller";
 import { Routes, Route } from "react-router-dom";
 import About from "./About";
 import Pattern1 from "./formpattern/Pattern1";
+import NotFound from "./NotFound";
+
 const APP_ID = "reactForm";
 declare namespace JSX {
   interface IntrinsicElements {
@@ -88,6 +90,7 @@ class App extends React.Component {
         <Routes>
           <Route path="/" element={<Pattern1 {...this.props} />} />
           <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
 
         {/* <Pattern2/> */}

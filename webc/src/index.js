@@ -1,4 +1,3 @@
-
 import { MFEController } from "./export"
 import "./component"
 

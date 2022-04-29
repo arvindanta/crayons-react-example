@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { MFEController } from "@freshworksinc/platform-application";
+import { MFEController } from "./controller";
 import "./index.css";
 import App from "./App";
 
@@ -17,7 +17,7 @@ const rootConfig = {
     console.log(`MOUNT: ${APP_ID}`, container, appProps);
 
     ReactDOM.render(
-      <BrowserRouter basename="/accounts/react">
+      <BrowserRouter basename={appProps.routerBasePath ?? "/accounts/react1"}>
         <App {...appProps} />
       </BrowserRouter>,
       container

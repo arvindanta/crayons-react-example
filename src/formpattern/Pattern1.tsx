@@ -1,5 +1,5 @@
 import { useRef } from "react";
-
+import { MFEController } from "../controller";
 // import {
 //   FwForm,
 //   FwModal,
@@ -474,6 +474,29 @@ function Pattern1(props: any) {
       </FwButton>
       <FwButton onClick={handleFormSubmit}>Custom Submit</FwButton>
       <Link to="/about">About</Link>
+      <br />
+      <a
+        href="accounts/wc"
+        onClick={(e) => {
+          e.preventDefault();
+
+          MFEController?.__mfe_publish?.({
+            action: {
+              type: "navigate",
+              sender: "reactForm",
+              receiver: "root",
+            },
+            payload: {
+              from: window.origin,
+              to: "/accounts/wc",
+            },
+            senderOrigin: window.origin,
+            targetOrigin: "http://localhost:3333",
+          });
+        }}
+      >
+        Webcomponent MFE 2
+      </a>
     </div>
   );
 }
