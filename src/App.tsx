@@ -6,9 +6,9 @@
 // import Pattern3 from "./formpattern/Pattern3";
 // import Slot from "./Slot"
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MFEController } from "./controller";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import About from "./About";
 import Pattern1 from "./formpattern/Pattern1";
 import NotFound from "./NotFound";
@@ -26,23 +26,22 @@ function inIframe() {
     return true;
   }
 }
-class App extends React.Component {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      x: "x",
-    };
-    this.triggerClick = this.triggerClick.bind(this);
-    this.broadCastMessage = this.broadCastMessage.bind(this);
-  }
-
-  componentDidMount() {
+function App(props) {
+  let navigate = useNavigate();
+  useEffect(() => {
     MFEController?.__mfe_subscribe?.(APP_ID, (msg: any) => {
       console.log(`msg from outside for ${APP_ID} is ${msg}`);
-    });
-  }
 
-  triggerClick() {
+      const { action, payload } = msg;
+      if (action.type === "navigate") {
+        const { to } = payload;
+        console.log("to ", to);
+        navigate(to);
+      }
+    });
+  }, []);
+
+  const triggerClick = () => {
     console.log("click");
 
     MFEController?.__mfe_publish?.({
@@ -55,9 +54,9 @@ class App extends React.Component {
       senderOrigin: window.origin,
       targetOrigin: "http://localhost:3333",
     });
-  }
+  };
 
-  broadCastMessage() {
+  const broadCastMessage = () => {
     console.log("broadcast");
 
     MFEController?.__mfe_publish?.({
@@ -70,35 +69,33 @@ class App extends React.Component {
       senderOrigin: window.origin,
       targetOrigin: "http://localhost:3333",
     });
-  }
+  };
 
-  render() {
-    return (
-      <div className="App">
-        <h3>Rendering React app as a MFE here</h3>
+  return (
+    <div className="App">
+      <h3>Rendering React app as a MFE here</h3>
 
-        <button onClick={this.triggerClick}>test publiush</button>
+      <button onClick={triggerClick}>test publiush</button>
 
-        <button onClick={this.broadCastMessage}>test broadcast</button>
+      <button onClick={broadCastMessage}>test broadcast</button>
 
-        {/* <mfe-application
+      {/* <mfe-application
           app-id="reactForm"
           app-name="react form"
         ></mfe-application> */}
 
-        <br />
-        <Routes>
-          <Route path="/" element={<Pattern1 {...this.props} />} />
-          <Route path="/about" element={<About />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+      <br />
+      <Routes>
+        <Route path="/" element={<Pattern1 {...props} />} />
+        <Route path="/about" element={<About />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
-        {/* <Pattern2/> */}
-        {/* <Pattern3/> */}
-        {/* <Slot/> */}
-      </div>
-    );
-  }
+      {/* <Pattern2/> */}
+      {/* <Pattern3/> */}
+      {/* <Slot/> */}
+    </div>
+  );
 }
 
 export default App;

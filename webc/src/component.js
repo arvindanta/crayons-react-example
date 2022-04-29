@@ -25,6 +25,22 @@ class MyComponent extends HTMLElement {
       senderOrigin: window.origin,
       targetOrigin: "http://localhost:3333",
     });
+
+
+    MFEController?.__mfe_publish?.({
+      action: {
+        type: "navigate",
+        sender: "wc1",
+        receiver: "reactForm",
+      },
+      payload: {
+        from: window.origin,
+        to: "/about",
+      },
+      senderOrigin: window.origin,
+      targetOrigin: "http://localhost:3333",
+    });
+  
   }
   connectedCallback() {
     this.innerHTML = `<h1>Hello world</h1>
@@ -32,4 +48,5 @@ class MyComponent extends HTMLElement {
       `;
   }
 }
+if(!window.customElements.get("my-component"))
 customElements.define("my-component", MyComponent);
