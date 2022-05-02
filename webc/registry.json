@@ -1,0 +1,20 @@
+{
+  "production": {
+    "0.1.0": {
+      "entrypoints": ["main.js"],
+      "appUrl": "http://localhost:9002/"
+    }
+  },
+  "staging": {
+    "0.1.0": {
+      "entrypoints": ["main.js"],
+      "appUrl": "http://localhost:9002/"
+    }
+  },
+  "dev": {
+    "0.1.0": {
+      "entrypoints": ["main.js"],
+      "appUrl": "http://localhost:9002/"
+    }
+  }
+}

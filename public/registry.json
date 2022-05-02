@@ -1,0 +1,35 @@
+{
+  "production": {
+    "0.1.0": {
+      "entrypoints": [
+        "static/js/runtime-main.2b04c152.js",
+        "static/js/2.8e5fe454.chunk.js",
+        "static/css/main.6aa26335.chunk.css",
+        "static/js/main.fc3e74a8.chunk.js"
+      ],
+      "appUrl": "http://localhost:9003/"
+    }
+  },
+  "staging": {
+    "0.1.0": {
+      "entrypoints": [
+        "static/js/runtime-main.2b04c152.js",
+        "static/js/2.8e5fe454.chunk.js",
+        "static/css/main.6aa26335.chunk.css",
+        "static/js/main.fc3e74a8.chunk.js"
+      ],
+      "appUrl": "http://localhost:9003/"
+    }
+  },
+  "dev": {
+    "0.1.0": {
+      "entrypoints": [
+        "static/js/runtime-main.2b04c152.js",
+        "static/js/2.8e5fe454.chunk.js",
+        "static/css/main.6aa26335.chunk.css",
+        "static/js/main.fc3e74a8.chunk.js"
+      ],
+      "appUrl": "http://localhost:9003/"
+    }
+  }
+}

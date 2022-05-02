@@ -5,6 +5,7 @@ class MyComponent extends HTMLElement {
   constructor() {
     // Setup a click listener on app itself.
     super();
+    console.log('apprProps',this.getAttribute("appProps"))
     this.addEventListener("click", (e) => {
       this.handler();
     });
@@ -23,7 +24,7 @@ class MyComponent extends HTMLElement {
       },
       payload: "from child webc",
       senderOrigin: window.origin,
-      targetOrigin: "http://localhost:3333",
+      targetOrigin: this.getAttribute("appProps")?.targetOrigin || "http://localhost:3333",
     });
 
 
@@ -38,7 +39,7 @@ class MyComponent extends HTMLElement {
         to: "/about",
       },
       senderOrigin: window.origin,
-      targetOrigin: "http://localhost:3333",
+      targetOrigin: this.getAttribute("appProps")?.targetOrigin || "http://localhost:3333",
     });
   
   }

@@ -52,7 +52,7 @@ function App(props) {
       },
       payload: "from child reactForm",
       senderOrigin: window.origin,
-      targetOrigin: "http://localhost:3333",
+      targetOrigin: props.targetOrigin || "http://localhost:3333",
     });
   };
 
@@ -67,7 +67,7 @@ function App(props) {
       payload: "from child broadcast reactForm",
       broadcast: true,
       senderOrigin: window.origin,
-      targetOrigin: "http://localhost:3333",
+      targetOrigin: props.targetOrigin || "http://localhost:3333",
     });
   };
 

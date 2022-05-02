@@ -17,7 +17,7 @@ const rootConfig = {
     console.log(`MOUNT: ${APP_ID}`, container, appProps);
 
     ReactDOM.render(
-      <BrowserRouter basename={appProps.routerBasePath ?? "/accounts/react1"}>
+      <BrowserRouter basename={appProps.routerBasePath}>
         <App {...appProps} />
       </BrowserRouter>,
       container

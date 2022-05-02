@@ -21,3 +21,10 @@ unmount: (container) =>{
 }
 
 MFEController?.setRootConfig?.(APP_ID, rootConfig);
+
+window.onload = () => {
+  rootConfig.mount(document.getElementById("webroot"), {
+    title: "test",
+    targetOrigin: window.origin
+  });
+};
