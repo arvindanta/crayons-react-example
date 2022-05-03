@@ -2,10 +2,10 @@
   "production": {
     "0.1.0": {
       "entrypoints": [
-        "static/js/runtime-main.1ea039a5.js",
-        "static/js/2.8e5fe454.chunk.js",
+        "static/js/runtime-main.04e0b4be.js",
+        "static/js/2.35564f79.chunk.js",
         "static/css/main.6aa26335.chunk.css",
-        "static/js/main.a4342ba1.chunk.js"
+        "static/js/main.25dac906.chunk.js"
       ],
       "appUrl": "http://localhost:9003/"
     }
@@ -13,10 +13,10 @@
   "staging": {
     "0.1.0": {
       "entrypoints": [
-        "static/js/runtime-main.1ea039a5.js",
-        "static/js/2.8e5fe454.chunk.js",
+        "static/js/runtime-main.04e0b4be.js",
+        "static/js/2.35564f79.chunk.js",
         "static/css/main.6aa26335.chunk.css",
-        "static/js/main.a4342ba1.chunk.js"
+        "static/js/main.25dac906.chunk.js"
       ],
       "appUrl": "http://localhost:9003/"
     }
@@ -24,10 +24,10 @@
   "dev": {
     "0.1.0": {
       "entrypoints": [
-        "static/js/runtime-main.1ea039a5.js",
-        "static/js/2.8e5fe454.chunk.js",
+        "static/js/runtime-main.04e0b4be.js",
+        "static/js/2.35564f79.chunk.js",
         "static/css/main.6aa26335.chunk.css",
-        "static/js/main.a4342ba1.chunk.js"
+        "static/js/main.25dac906.chunk.js"
       ],
       "appUrl": "http://localhost:9003/"
     }
