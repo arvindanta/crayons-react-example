@@ -29,7 +29,7 @@ function inIframe() {
 function App(props) {
   let navigate = useNavigate();
   useEffect(() => {
-    MFEController?.__mfe_subscribe?.(APP_ID, (msg: any) => {
+    MFEController?.__mfe_subscribe?.("ROUTE_CHANGE", (msg: any) => {
       console.log(`msg from outside for ${APP_ID} is ${msg}`);
 
       const { action, payload } = msg;
@@ -45,6 +45,7 @@ function App(props) {
     console.log("click");
 
     MFEController?.__mfe_publish?.({
+      eventName: "from_child_react",
       action: {
         type: "from_child reactForm",
         sender: "reactForm",
@@ -60,6 +61,7 @@ function App(props) {
     console.log("broadcast");
 
     MFEController?.__mfe_publish?.({
+      eventName: "from_child_react1",
       action: {
         type: "from_child reactForm",
         sender: "reactForm",

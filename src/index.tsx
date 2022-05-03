@@ -29,7 +29,7 @@ const rootConfig = {
   },
 };
 
-MFEController?.setRootConfig?.(APP_ID, rootConfig);
+MFEController?.registerApplication?.(APP_ID, rootConfig);
 
 window.onload = () => {
   rootConfig.mount(document.getElementById("root"), {

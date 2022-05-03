@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@freshworks/crayons": "^3.2.2-beta.3",
+    "@freshworks/crayons": "^3.4.0",
     "@freshworks/crayons-1": "file:../crayons/packages/crayons-core",
+    "@freshworks/crayons-i18n": "^3.1.1",
     "@freshworks/crayons-icons-1": "file:../crayons/packages/crayons-icon",
     "@freshworksinc/platform-application": "file:../platform-apps/packages/platform-application",
     "@testing-library/jest-dom": "^5.15.1",

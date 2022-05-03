@@ -9,7 +9,7 @@ class MyComponent extends HTMLElement {
     this.addEventListener("click", (e) => {
       this.handler();
     });
-    MFEController?.__mfe_subscribe?.(APP_ID, (msg) => {
+    MFEController?.__mfe_subscribe?.("INIT", (msg) => {
       console.log(`msg from outside for ${APP_ID} is ${msg}`);
     });
   }
@@ -17,10 +17,11 @@ class MyComponent extends HTMLElement {
   handler() {
     console.log("jdjdhjso ");
     MFEController?.__mfe_publish?.({
+      eventName:'from_child_webc',
       action: {
         type: "from_child webc",
-        sender: "web12",
-        receiver: "root",
+        // sender: "web12",
+        // receiver: "root",
       },
       payload: "from child webc",
       senderOrigin: window.origin,
@@ -29,10 +30,11 @@ class MyComponent extends HTMLElement {
 
 
     MFEController?.__mfe_publish?.({
+      eventName:'ROUTE_CHANGE',
       action: {
         type: "navigate",
-        sender: "wc1",
-        receiver: "reactForm",
+        // sender: "wc1",
+        // receiver: "reactForm",
       },
       payload: {
         from: window.origin,
