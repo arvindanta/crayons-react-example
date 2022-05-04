@@ -6,7 +6,7 @@
 // import Pattern3 from "./formpattern/Pattern3";
 // import Slot from "./Slot"
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { MFEController } from "./controller";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import About from "./About";
@@ -19,14 +19,8 @@ declare namespace JSX {
     "mfe-application": any;
   }
 }
-function inIframe() {
-  try {
-    return window.self !== window.top;
-  } catch (e) {
-    return true;
-  }
-}
 function App(props) {
+  console.log({ props });
   let navigate = useNavigate();
   useEffect(() => {
     MFEController?.__mfe_subscribe?.("ROUTE_CHANGE", (msg: any) => {
@@ -49,11 +43,9 @@ function App(props) {
       action: {
         type: "from_child reactForm",
         sender: "reactForm",
-        receiver: "web12",
       },
       payload: "from child reactForm",
-      senderOrigin: window.origin,
-      targetOrigin: props.targetOrigin || "http://localhost:3333",
+      targetOrigin: props.__props_shellUrl,
     });
   };
 
@@ -67,9 +59,7 @@ function App(props) {
         sender: "reactForm",
       },
       payload: "from child broadcast reactForm",
-      broadcast: true,
-      senderOrigin: window.origin,
-      targetOrigin: props.targetOrigin || "http://localhost:3333",
+      targetOrigin: props.__props_shellUrl,
     });
   };
 

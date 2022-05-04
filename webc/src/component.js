@@ -5,27 +5,28 @@ class MyComponent extends HTMLElement {
   constructor() {
     // Setup a click listener on app itself.
     super();
-    console.log('apprProps',this.getAttribute("appProps"))
     this.addEventListener("click", (e) => {
       this.handler();
     });
     MFEController?.__mfe_subscribe?.("INIT", (msg) => {
       console.log(`msg from outside for ${APP_ID} is ${msg}`);
     });
+
+    MFEController?.__mfe_subscribe?.("from_child_react1", (msg) => {
+      console.log(`msg from outside for ${APP_ID} is ${msg}`);
+    });
   }
 
   handler() {
-    console.log("jdjdhjso ");
+    console.log('apprProps',this.appProps)
     MFEController?.__mfe_publish?.({
       eventName:'from_child_webc',
       action: {
         type: "from_child webc",
-        // sender: "web12",
-        // receiver: "root",
+        sender: "web12",
       },
       payload: "from child webc",
-      senderOrigin: window.origin,
-      targetOrigin: this.getAttribute("appProps")?.targetOrigin || "http://localhost:3333",
+      targetOrigin: this.appProps?.__props_shellUrl,
     });
 
 
@@ -33,15 +34,13 @@ class MyComponent extends HTMLElement {
       eventName:'ROUTE_CHANGE',
       action: {
         type: "navigate",
-        // sender: "wc1",
-        // receiver: "reactForm",
+        sender: "wc1",
       },
       payload: {
         from: window.origin,
         to: "/about",
       },
-      senderOrigin: window.origin,
-      targetOrigin: this.getAttribute("appProps")?.targetOrigin || "http://localhost:3333",
+      targetOrigin: this.appProps?.__props_shellUrl,
     });
   
   }

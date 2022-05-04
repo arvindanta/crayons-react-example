@@ -484,14 +484,12 @@ function Pattern1(props: any) {
             action: {
               type: "navigate",
               sender: "reactForm",
-              receiver: "root",
             },
             payload: {
               from: window.origin,
               to: "/accounts/wc",
             },
-            senderOrigin: window.origin,
-            targetOrigin: props.targetOrigin || "http://localhost:3333",
+            targetOrigin: props.__props_shellUrl,
           });
         }}
       >

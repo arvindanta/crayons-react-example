@@ -13,7 +13,6 @@ const rootConfig = {
       console.warn(`APP - ${APP_ID} container not found`);
       return;
     }
-
     console.log(`MOUNT: ${APP_ID}`, container, appProps);
 
     ReactDOM.render(
@@ -32,7 +31,10 @@ const rootConfig = {
 MFEController?.registerApplication?.(APP_ID, rootConfig);
 
 window.onload = () => {
+  const appProps = MFEController.getMFEQueryParams();
+
   rootConfig.mount(document.getElementById("root"), {
+    ...appProps,
     title: "test",
   });
 };

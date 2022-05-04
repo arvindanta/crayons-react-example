@@ -12,6 +12,8 @@ const rootConfig = {
     }
 
     console.log(`MOUNT: ${APP_ID}`, container, appProps);
+
+    webcmp.appProps = appProps;
     container.appendChild(webcmp);
   },
   unmount: (container) => {
@@ -23,8 +25,9 @@ const rootConfig = {
 MFEController?.registerApplication?.(APP_ID, rootConfig);
 
 window.onload = () => {
+  const appProps = MFEController.getMFEQueryParams();
   rootConfig.mount(document.getElementById("webroot"), {
     title: "test",
-    targetOrigin: window.origin,
+    ...appProps
   });
 };
