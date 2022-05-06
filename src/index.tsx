@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
-import { MFEController } from "./controller";
+import { createMFEInstance, MFEController } from "./controller";
 import "./index.css";
 import App from "./App";
 
@@ -13,6 +13,8 @@ const rootConfig = {
       console.warn(`APP - ${APP_ID} container not found`);
       return;
     }
+
+    createMFEInstance(appProps.instanceId);
 
     console.log(
       `MOUNTING: instance ${appProps.instanceId} of app group ${APP_ID}, `,

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { MFEController } from "../controller";
+import { MFEEventInstance } from "../controller";
 // import {
 //   FwForm,
 //   FwModal,
@@ -480,7 +480,7 @@ function Pattern1(props: any) {
         onClick={(e) => {
           e.preventDefault();
 
-          MFEController?.__mfe_publish?.({
+          MFEEventInstance?.__mfe_publish?.({
             eventName: props.instanceId + ":ROUTE_CHANGE",
             action: {
               type: "navigate",

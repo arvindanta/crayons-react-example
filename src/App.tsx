@@ -7,7 +7,7 @@
 // import Slot from "./Slot"
 
 import React, { useEffect } from "react";
-import { MFEController } from "./controller";
+import { MFEEventInstance } from "./controller";
 import { Routes, Route } from "react-router-dom";
 import About from "./About";
 import Pattern1 from "./formpattern/Pattern1";
@@ -19,11 +19,9 @@ declare namespace JSX {
   }
 }
 function App(props) {
-  const { addSubscribers } = useAppSubscribers(props.instanceId);
+  const { addSubscribers } = useAppSubscribers();
 
   console.log("appProps", { props });
-
-  const eventNameSpace = props.instanceId;
 
   //let navigate = useNavigate();
   useEffect(() => {
@@ -32,8 +30,8 @@ function App(props) {
 
   const triggerClick = () => {
     console.log("publishing event - from_child_react from react app");
-    MFEController?.__mfe_publish?.({
-      eventName: eventNameSpace + ":from_child_react",
+    MFEEventInstance?.__mfe_publish?.({
+      eventName: "from_child_react",
       action: {
         type: "from_child reactForm",
         sender: "reactForm",
@@ -46,7 +44,7 @@ function App(props) {
   const broadCastMessage = () => {
     console.log("publishing event - from_child_react1 from react app");
 
-    MFEController?.__mfe_publish?.({
+    MFEEventInstance?.__mfe_publish?.({
       eventName: eventNameSpace + ":from_child_react1",
       action: {
         type: "from_child reactForm",

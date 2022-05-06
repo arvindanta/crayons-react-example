@@ -1,3 +1,10 @@
 import { MFEController } from "@freshworksinc/platform-application";
 
-export { MFEController}
+let MFEEventInstance: any = null;
+
+export function createMFEInstance(namespace:string) {
+    MFEEventInstance = MFEController.init(namespace);
+}
+
+
+export { MFEController, MFEEventInstance  }

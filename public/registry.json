@@ -3,9 +3,9 @@
     "0.1.0": {
       "entrypoints": [
         "static/js/runtime-main.04e0b4be.js",
-        "static/js/2.35564f79.chunk.js",
+        "static/js/2.cfb85878.chunk.js",
         "static/css/main.6aa26335.chunk.css",
-        "static/js/main.d1c18b23.chunk.js"
+        "static/js/main.52e5245b.chunk.js"
       ],
       "appUrl": "http://localhost:9003/"
     }
@@ -14,9 +14,9 @@
     "0.1.0": {
       "entrypoints": [
         "static/js/runtime-main.04e0b4be.js",
-        "static/js/2.35564f79.chunk.js",
+        "static/js/2.cfb85878.chunk.js",
         "static/css/main.6aa26335.chunk.css",
-        "static/js/main.d1c18b23.chunk.js"
+        "static/js/main.52e5245b.chunk.js"
       ],
       "appUrl": "http://localhost:9003/"
     }
@@ -25,9 +25,9 @@
     "0.1.0": {
       "entrypoints": [
         "static/js/runtime-main.04e0b4be.js",
-        "static/js/2.35564f79.chunk.js",
+        "static/js/2.cfb85878.chunk.js",
         "static/css/main.6aa26335.chunk.css",
-        "static/js/main.d1c18b23.chunk.js"
+        "static/js/main.52e5245b.chunk.js"
       ],
       "appUrl": "http://localhost:9003/"
     }
