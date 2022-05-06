@@ -8,38 +8,32 @@
 
 import React, { useEffect } from "react";
 import { MFEController } from "./controller";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import About from "./About";
 import Pattern1 from "./formpattern/Pattern1";
 import NotFound from "./NotFound";
-
-const APP_ID = "reactForm";
+import { useAppSubscribers } from "./util";
 declare namespace JSX {
   interface IntrinsicElements {
     "mfe-application": any;
   }
 }
 function App(props) {
-  console.log({ props });
-  let navigate = useNavigate();
-  useEffect(() => {
-    MFEController?.__mfe_subscribe?.("ROUTE_CHANGE", (msg: any) => {
-      console.log(`msg from outside for ${APP_ID} is ${msg}`);
+  const { addSubscribers } = useAppSubscribers(props.instanceId);
 
-      const { action, payload } = msg;
-      if (action.type === "navigate") {
-        const { to } = payload;
-        console.log("to ", to);
-        navigate(to);
-      }
-    });
+  console.log("appProps", { props });
+
+  const eventNameSpace = props.instanceId;
+
+  //let navigate = useNavigate();
+  useEffect(() => {
+    addSubscribers();
   }, []);
 
   const triggerClick = () => {
-    console.log("click");
-
+    console.log("publishing event - from_child_react from react app");
     MFEController?.__mfe_publish?.({
-      eventName: "from_child_react",
+      eventName: eventNameSpace + ":from_child_react",
       action: {
         type: "from_child reactForm",
         sender: "reactForm",
@@ -50,10 +44,10 @@ function App(props) {
   };
 
   const broadCastMessage = () => {
-    console.log("broadcast");
+    console.log("publishing event - from_child_react1 from react app");
 
     MFEController?.__mfe_publish?.({
-      eventName: "from_child_react1",
+      eventName: eventNameSpace + ":from_child_react1",
       action: {
         type: "from_child reactForm",
         sender: "reactForm",
@@ -70,11 +64,6 @@ function App(props) {
       <button onClick={triggerClick}>test publiush</button>
 
       <button onClick={broadCastMessage}>test broadcast</button>
-
-      {/* <mfe-application
-          app-id="reactForm"
-          app-name="react form"
-        ></mfe-application> */}
 
       <br />
       <Routes>

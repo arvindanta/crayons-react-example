@@ -481,6 +481,7 @@ function Pattern1(props: any) {
           e.preventDefault();
 
           MFEController?.__mfe_publish?.({
+            eventName: props.instanceId + ":ROUTE_CHANGE",
             action: {
               type: "navigate",
               sender: "reactForm",

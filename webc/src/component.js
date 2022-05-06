@@ -1,6 +1,5 @@
-
-import { MFEController } from "./export"
-const APP_ID = "web12"
+import { MFEController } from "./export";
+const APP_ID = "web12";
 class MyComponent extends HTMLElement {
   constructor() {
     // Setup a click listener on app itself.
@@ -18,9 +17,11 @@ class MyComponent extends HTMLElement {
   }
 
   handler() {
-    console.log('apprProps',this.appProps)
+    console.log("apprProps", this.appProps);
+
+    console.log("publishing event 1 - from_child_webc from webc");
     MFEController?.__mfe_publish?.({
-      eventName:'from_child_webc',
+      eventName: "from_child_webc",
       action: {
         type: "from_child webc",
         sender: "web12",
@@ -29,20 +30,19 @@ class MyComponent extends HTMLElement {
       targetOrigin: this.appProps?.__props_shellUrl,
     });
 
-
+    console.log("publishing event 2 - route change from webc");
     MFEController?.__mfe_publish?.({
-      eventName:'ROUTE_CHANGE',
+      eventName: "ROUTE_CHANGE",
       action: {
         type: "navigate",
         sender: "wc1",
       },
       payload: {
         from: window.origin,
-        to: "/about",
+        to: "/accounts/react1/about",
       },
       targetOrigin: this.appProps?.__props_shellUrl,
     });
-  
   }
   connectedCallback() {
     this.innerHTML = `<h1>Hello world</h1>
@@ -50,5 +50,5 @@ class MyComponent extends HTMLElement {
       `;
   }
 }
-if(!window.customElements.get("my-component"))
-customElements.define("my-component", MyComponent);
+if (!window.customElements.get("my-component"))
+  customElements.define("my-component", MyComponent);

@@ -13,7 +13,12 @@ const rootConfig = {
       console.warn(`APP - ${APP_ID} container not found`);
       return;
     }
-    console.log(`MOUNT: ${APP_ID}`, container, appProps);
+
+    console.log(
+      `MOUNTING: instance ${appProps.instanceId} of app group ${APP_ID}, `,
+      container,
+      appProps
+    );
 
     ReactDOM.render(
       <BrowserRouter basename={appProps.routerBasePath}>
@@ -22,8 +27,10 @@ const rootConfig = {
       container
     );
   },
-  unmount: async (container: any) => {
-    console.log(`UNMOUNT: ${APP_ID}`);
+  unmount: async (container: any, appProps: any) => {
+    console.log(
+      `UNMOUNTING: instance ${appProps.instanceId} of app group ${APP_ID}`
+    );
     ReactDOM.unmountComponentAtNode(container);
   },
 };
