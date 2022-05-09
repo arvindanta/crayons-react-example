@@ -35,6 +35,10 @@ const rootConfig = {
     );
     ReactDOM.unmountComponentAtNode(container);
   },
+  async get(params: any) {
+    console.log("params", params);
+    return params;
+  },
 };
 
 MFEController?.registerApplication?.(APP_ID, rootConfig);
