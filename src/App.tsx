@@ -37,7 +37,7 @@ function App(props) {
         sender: "reactForm",
       },
       payload: "from child reactForm",
-      targetOrigin: props.__props_shellUrl,
+      targetOrigin: props.shellUrl,
     });
   };
 
@@ -51,7 +51,7 @@ function App(props) {
         sender: "reactForm",
       },
       payload: "from child broadcast reactForm",
-      targetOrigin: props.__props_shellUrl,
+      targetOrigin: props.shellUrl,
     });
   };
 

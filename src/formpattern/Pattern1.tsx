@@ -490,7 +490,7 @@ function Pattern1(props: any) {
               from: window.origin,
               to: "/accounts/wc",
             },
-            targetOrigin: props.__props_shellUrl,
+            targetOrigin: props.shellUrl,
           });
         }}
       >

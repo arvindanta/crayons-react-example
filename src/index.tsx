@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { createMFEInstance, MFEController } from "./controller";
 import "./index.css";
 import App from "./App";
+import About from "./About";
 
 const APP_ID = "reactForm";
 
@@ -35,8 +36,30 @@ const rootConfig = {
     );
     ReactDOM.unmountComponentAtNode(container);
   },
+
+  xyzmount: async (container: any, appProps: any) => {
+    console.log(
+      `MOUNTING: xyz tree with instance ${appProps.instanceId} of app group ${APP_ID}, `,
+      container,
+      appProps
+    );
+
+    ReactDOM.render(
+      <BrowserRouter basename={appProps.routerBasePath}>
+        <About {...appProps} />
+      </BrowserRouter>,
+      container
+    );
+  },
+  xyzunmount: async (container: any, appProps: any) => {
+    console.log(
+      `UNMOUNTING: instance ${appProps.instanceId} of app group ${APP_ID}`
+    );
+    ReactDOM.unmountComponentAtNode(container);
+  },
+
   async get(params: any) {
-    console.log("params", params);
+    console.log("params", APP_ID, params);
     return params;
   },
 };

@@ -12,8 +12,8 @@ export function useAppSubscribers() {
   };
 }
 
-function routeChange(navigate) {
-  return (msg) => {
+function routeChange(navigate: any) {
+  return (msg: any) => {
     console.log(`Event MSG ${msg}`);
 
     const { action, payload } = msg;
@@ -24,11 +24,12 @@ function routeChange(navigate) {
     }
   };
 }
-
-function addSubscribers(events) {
+const removeSubscribersList: any = [];
+function addSubscribers(events: any) {
   return () => {
     Object.keys(events).forEach((event) => {
-      MFEEventInstance.__mfe_subscribe(event, events[event]);
+      removeSubscribersList.push(MFEEventInstance.__mfe_subscribe(event, events[event]));
     });
   };
 }
+export { removeSubscribersList }

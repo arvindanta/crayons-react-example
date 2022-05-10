@@ -1,4 +1,4 @@
-import { MFEController } from "./export";
+import { MFEController, createMFEInstance } from "./export";
 import "./component";
 
 const APP_ID = "web12";
@@ -12,13 +12,20 @@ const rootConfig = {
     }
 
     console.log(`MOUNT: ${APP_ID}`, container, appProps);
-
+    
     webcmp.appProps = appProps;
+
+    createMFEInstance(appProps.instanceId || appProps.instanceId);
+
     container.appendChild(webcmp);
   },
   unmount: (container) => {
     console.log(`UNMOUNT: ${APP_ID}`);
     container.remove(webcmp);
+  },
+  async get(params) {
+    console.log("params", APP_ID, params);
+    return params;
   },
 };
 
