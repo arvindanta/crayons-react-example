@@ -480,7 +480,7 @@ function Pattern1(props: any) {
         onClick={(e) => {
           e.preventDefault();
 
-          MFEEventInstance?.__mfe_publish?.({
+          MFEEventInstance?.publish?.({
             eventName: props.instanceId + ":ROUTE_CHANGE",
             action: {
               type: "navigate",

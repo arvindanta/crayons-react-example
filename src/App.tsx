@@ -30,7 +30,7 @@ function App(props) {
 
   const triggerClick = () => {
     console.log("publishing event - from_child_react from react app");
-    MFEEventInstance?.__mfe_publish?.({
+    MFEEventInstance?.publish?.({
       eventName: "from_child_react",
       action: {
         type: "from_child reactForm",
@@ -44,7 +44,7 @@ function App(props) {
   const broadCastMessage = () => {
     console.log("publishing event - from_child_react1 from react app");
 
-    MFEEventInstance?.__mfe_publish?.({
+    MFEEventInstance?.publish?.({
       eventName: eventNameSpace + ":from_child_react1",
       action: {
         type: "from_child reactForm",

@@ -28,7 +28,7 @@ const removeSubscribersList: any = [];
 function addSubscribers(events: any) {
   return () => {
     Object.keys(events).forEach((event) => {
-      removeSubscribersList.push(MFEEventInstance.__mfe_subscribe(event, events[event]));
+      removeSubscribersList.push(MFEEventInstance.subscribe(event, events[event]));
     });
   };
 }
