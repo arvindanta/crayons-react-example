@@ -7,7 +7,7 @@
 // import Slot from "./Slot"
 
 import React, { useEffect } from "react";
-import { MFEEventInstance } from "./controller";
+import { MFEInstance } from "./controller";
 import { Routes, Route } from "react-router-dom";
 import About from "./About";
 import Pattern1 from "./formpattern/Pattern1";
@@ -30,7 +30,7 @@ function App(props) {
 
   const triggerClick = () => {
     console.log("publishing event - from_child_react from react app");
-    MFEEventInstance?.publish?.({
+    MFEInstance?.publish?.({
       eventName: "from_child_react",
       action: {
         type: "from_child reactForm",
@@ -44,7 +44,7 @@ function App(props) {
   const broadCastMessage = () => {
     console.log("publishing event - from_child_react1 from react app");
 
-    MFEEventInstance?.publish?.({
+    MFEInstance?.publish?.({
       eventName: eventNameSpace + ":from_child_react1",
       action: {
         type: "from_child reactForm",

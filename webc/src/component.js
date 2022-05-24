@@ -1,4 +1,4 @@
-import { MFEEventInstance } from "./export";
+import { MFEInstance } from "./export";
 const APP_ID = "web12";
 class MyComponent extends HTMLElement {
   constructor() {
@@ -6,11 +6,11 @@ class MyComponent extends HTMLElement {
     this.addEventListener("click", (e) => {
       this.handler();
     });
-    MFEEventInstance?.subscribe?.("INIT", (msg) => {
+    MFEInstance?.subscribe?.("INIT", (msg) => {
       console.log(`msg from outside for ${APP_ID} is ${msg}`);
     });
 
-    MFEEventInstance?.subscribe?.("from_child_react1", (msg) => {
+    MFEInstance?.subscribe?.("from_child_react1", (msg) => {
       console.log(`msg from outside for ${APP_ID} is ${msg}`);
     });
   }
@@ -19,7 +19,7 @@ class MyComponent extends HTMLElement {
     console.log("apprProps", this.appProps);
 
     console.log("publishing event 1 - from_child_webc from webc");
-    MFEEventInstance?.publish?.({
+    MFEInstance?.publish?.({
       eventName: "from_child_webc",
       action: {
         type: "from_child webc",
@@ -30,7 +30,7 @@ class MyComponent extends HTMLElement {
     });
 
     console.log("publishing event 2 - route change from webc");
-    MFEEventInstance?.publish?.({
+    MFEInstance?.publish?.({
       eventName: "ROUTE_CHANGE",
       action: {
         type: "navigate",

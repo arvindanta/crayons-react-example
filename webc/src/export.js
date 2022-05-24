@@ -1,10 +1,14 @@
 import { MFEController } from "@freshworksinc/platform-application";
 
-let MFEEventInstance = null;
+let MFEInstance = null;
 
 export function createMFEInstance(namespace) {
-    MFEEventInstance = MFEController.init(namespace);
+    MFEInstance = MFEController.initialiseInstance(namespace, {
+        trigger: async (params) => {
+          console.log(`Calling trigger in ${namespace} ${params}`);
+        },
+      });
 }
 
 
-export { MFEController, MFEEventInstance  }
+export { MFEController, MFEInstance }

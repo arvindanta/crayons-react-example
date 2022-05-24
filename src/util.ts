@@ -1,4 +1,4 @@
-import { MFEEventInstance } from "./controller";
+import { MFEInstance } from "./controller";
 import { useNavigate } from "react-router-dom";
 
 export function useAppSubscribers() {
@@ -28,7 +28,7 @@ const removeSubscribersList: any = [];
 function addSubscribers(events: any) {
   return () => {
     Object.keys(events).forEach((event) => {
-      removeSubscribersList.push(MFEEventInstance.subscribe(event, events[event]));
+      removeSubscribersList.push(MFEInstance.subscribe(event, events[event]));
     });
   };
 }
